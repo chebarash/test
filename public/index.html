@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BNPL TrustMark — Widget Demo</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -26,25 +28,21 @@
       --indigo: #818cf8;  --indigo-bg: rgba(129,140,248,0.13);
     }
 
-    html, body { height: 100%; }
+    html {
+      height: 100%;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+    html::-webkit-scrollbar { display: none; }
 
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'DM Sans', system-ui, sans-serif;
-      overflow: hidden;
+      min-height: 100%;
     }
-
-    /* ─── Scroll container ───────────────────────────────── */
-
-    .scroller {
-      height: 100vh;
-      overflow-y: scroll;
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-    }
-
-    .scroller::-webkit-scrollbar { display: none; }
 
     /* ─── Sections ───────────────────────────────────────── */
 
@@ -192,18 +190,6 @@
       color: var(--text);
     }
 
-    .cert-id-chip {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--sub);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      border-radius: 8px;
-      width: fit-content;
-      letter-spacing: 0.05em;
-    }
-
     /* Right: widget preview */
 
     .section-right { display: flex; justify-content: center; }
@@ -275,53 +261,49 @@
 
     /* ─── Fixed: controls ────────────────────────────────── */
 
-    .controls {
+    .ctrl-lang,
+    .ctrl-theme {
       position: fixed;
-      bottom: 28px;
-      right: 28px;
+      top: 20px;
       z-index: 100;
       display: flex;
       align-items: center;
-      gap: 1px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      gap: 2px;
       padding: 4px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      background: rgba(12,12,18,0.8);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.4);
     }
 
-    .ctrl-sep {
-      width: 1px;
-      height: 20px;
-      background: var(--border);
-      margin: 0 2px;
-    }
+    .ctrl-lang  { left: 20px; }
+    .ctrl-theme { right: 20px; }
 
     .ctrl-btn {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       font-weight: 500;
-      padding: 9px 16px;
-      border-radius: 9px;
+      padding: 10px 18px;
+      border-radius: 10px;
       border: none;
       cursor: pointer;
       color: var(--sub);
       background: transparent;
-      transition: all 0.15s;
-      letter-spacing: 0.04em;
+      transition: background 0.15s, color 0.15s;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
     }
 
-    .ctrl-btn:hover { color: var(--text); }
+    .ctrl-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
 
     .ctrl-btn.on {
-      background: var(--card);
-      color: var(--text);
+      background: var(--text);
+      color: var(--bg);
     }
 
-    /* theme icon buttons */
-    .ctrl-btn.icon { font-size: 15px; padding: 9px 12px; }
+    .ctrl-btn.icon { font-size: 16px; padding: 10px 13px; }
 
     /* ─── Fixed: byline ──────────────────────────────────── */
 
@@ -431,34 +413,33 @@
       .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
       .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
 
-      /* Dots go horizontal at bottom, push byline+controls up */
+      /* Dots go horizontal at bottom */
       .dots {
         right: unset; top: unset;
         bottom: 20px; left: 50%;
         transform: translateX(-50%);
         flex-direction: row; gap: 10px;
       }
-      .byline { bottom: 52px; }
-      .controls { bottom: 52px; }
     }
 
-    /* Small phone tweaks — keep browser, just compress spacing */
+    /* Small phone tweaks */
     @media (max-width: 430px) {
       .section-inner { padding: 24px 20px; gap: 18px; }
       .hero h1 { font-size: 52px; }
       .hero-sub { font-size: 14px; margin-bottom: 36px; }
-      .controls { right: 10px; bottom: 50px; padding: 3px; }
-      .ctrl-btn { padding: 6px 9px; font-size: 10px; }
-      .ctrl-btn.icon { padding: 6px 7px; }
-      .byline { bottom: 50px; left: 10px; font-size: 10px; }
+      .ctrl-lang, .ctrl-theme { top: 12px; padding: 3px; }
+      .ctrl-lang { left: 12px; }
+      .ctrl-theme { right: 12px; }
+      .ctrl-btn { padding: 8px 12px; font-size: 11px; }
+      .ctrl-btn.icon { padding: 8px 10px; font-size: 14px; }
+      .byline { bottom: 16px; left: 12px; font-size: 10px; }
+      .dots { bottom: 16px; }
     }
   </style>
 </head>
 <body>
 
-<div class="scroller" id="scroller">
-
-  <!-- ─── Hero ──────────────────────────────────────────── -->
+<!-- ─── Hero ──────────────────────────────────────────── -->
   <section class="hero" id="s0">
     <p class="hero-eyebrow">BNPL TrustMark</p>
     <h1>Widget<br><em>showcase</em></h1>
@@ -476,8 +457,7 @@
         <div class="status-index">01 / 05</div>
 <h2 class="status-title">Active</h2>
         <p class="status-desc">Certificate is valid and verified. The company is an active member of the BNPL registry.</p>
-        <div class="cert-id-chip">FAU-2026-Z5X4M7</div>
-      </div>
+</div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -512,8 +492,7 @@
         <div class="status-index">02 / 05</div>
 <h2 class="status-title">Suspended</h2>
         <p class="status-desc">Certificate is temporarily suspended. Operations are paused until reinstated by the registry.</p>
-        <div class="cert-id-chip">FAU-2026-S9S8E9</div>
-      </div>
+</div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -548,8 +527,7 @@
         <div class="status-index">03 / 05</div>
 <h2 class="status-title">Expired</h2>
         <p class="status-desc">Certificate has passed its validity date. Renewal is required to restore active status.</p>
-        <div class="cert-id-chip">FAU-2026-F9W6F4</div>
-      </div>
+</div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -584,8 +562,7 @@
         <div class="status-index">04 / 05</div>
 <h2 class="status-title">Revoked</h2>
         <p class="status-desc">Certificate has been permanently revoked. The company is no longer part of the registry.</p>
-        <div class="cert-id-chip">FAU-2026-Y6B2J2</div>
-      </div>
+</div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -620,8 +597,7 @@
         <div class="status-index">05 / 05</div>
         <h2 class="status-title">Blocked</h2>
         <p class="status-desc">Widget is embedded from <code>test.chebarash.uz</code> but the certificate allows only <code>chebarash.uz</code>. The request is rejected by CORS policy.</p>
-        <div class="cert-id-chip">FAU-2026-M8A9J6</div>
-      </div>
+</div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -649,15 +625,15 @@
     </div>
   </section>
 
-</div>
+<!-- ─── Controls ─────────────────────────────────────── -->
 
-<!-- ─── Floating controls ─────────────────────────────── -->
-
-<div class="controls">
+<div class="ctrl-lang">
   <button class="ctrl-btn on" data-lang="uz">uz</button>
   <button class="ctrl-btn"   data-lang="ru">ru</button>
   <button class="ctrl-btn"   data-lang="en">en</button>
-  <div class="ctrl-sep"></div>
+</div>
+
+<div class="ctrl-theme">
   <button class="ctrl-btn icon on" data-theme="light" title="Light">☀</button>
   <button class="ctrl-btn icon"    data-theme="dark"  title="Dark">◐</button>
 </div>
@@ -722,12 +698,11 @@
   });
 
   // Section dots — scroll tracking
-  const scroller  = document.getElementById('scroller');
-  const sections  = ['s0','s1','s2','s3','s4','s5'].map(id => document.getElementById(id));
-  const dotEls    = document.querySelectorAll('.dots .dot');
+  const sections = ['s0','s1','s2','s3','s4','s5'].map(id => document.getElementById(id));
+  const dotEls   = document.querySelectorAll('.dots .dot');
 
   function onScroll() {
-    const mid = scroller.scrollTop + window.innerHeight / 2;
+    const mid = window.scrollY + window.innerHeight / 2;
     let active = 0;
     sections.forEach((s, i) => {
       if (s.offsetTop <= mid) active = i;
@@ -735,7 +710,7 @@
     dotEls.forEach((d, i) => d.classList.toggle('active', i === active));
   }
 
-  scroller.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   dotEls.forEach(dot => {
     dot.addEventListener('click', () => {
