@@ -79,28 +79,6 @@
     .s-revoked   .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(239,68,68,0.12),   0 0 0 1px var(--border); }
     .s-blocked   .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(129,140,248,0.12), 0 0 0 1px var(--border); }
 
-    /* ─── Watermark ──────────────────────────────────────── */
-
-    .section-watermark {
-      position: absolute;
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(120px, 22vw, 260px);
-      font-weight: 800;
-      letter-spacing: -0.06em;
-      line-height: 1;
-      bottom: -0.1em;
-      right: -0.03em;
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
-      opacity: 0.045;
-    }
-    .s-active    .section-watermark { color: var(--green); }
-    .s-suspended .section-watermark { color: var(--amber); }
-    .s-expired   .section-watermark { color: var(--gray); }
-    .s-revoked   .section-watermark { color: var(--red); }
-    .s-blocked   .section-watermark { color: var(--indigo); }
-
     /* ─── Status rule ────────────────────────────────────── */
 
     .status-rule {
@@ -339,10 +317,10 @@
 
     /* ─── Fixed: controls ────────────────────────────────── */
 
-    .ctrl-lang,
-    .ctrl-theme {
+    .ctrl-lang {
       position: fixed;
       top: 20px;
+      left: 20px;
       z-index: 100;
       display: flex;
       align-items: center;
@@ -355,9 +333,6 @@
       -webkit-backdrop-filter: blur(24px);
       box-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
-
-    .ctrl-lang  { left: 20px; }
-    .ctrl-theme { right: 20px; }
 
     /* sliding indicator */
     .ctrl-indicator {
@@ -391,7 +366,90 @@
 
     .ctrl-btn:hover { color: rgba(224,224,236,0.75); }
     .ctrl-btn.on    { color: var(--text); }
-    .ctrl-btn.icon  { font-size: 16px; padding: 10px 13px; }
+
+    /* ─── Theme toggle switch ────────────────────────────── */
+
+    .theme-switch {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      width: 78px;
+      height: 42px;
+      border-radius: 21px;
+      padding: 5px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
+    .ts-knob {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.11);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: transform 0.34s cubic-bezier(0.34,1.5,0.64,1);
+      will-change: transform;
+      flex-shrink: 0;
+    }
+
+    .theme-switch.is-dark .ts-knob {
+      transform: translateX(36px);
+    }
+
+    .ts-icon {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      transition: opacity 0.18s, transform 0.18s;
+    }
+
+    .ts-icon-light {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+    .ts-icon-dark {
+      opacity: 0;
+      transform: scale(0.5) rotate(-45deg);
+    }
+    .theme-switch.is-dark .ts-icon-light {
+      opacity: 0;
+      transform: scale(0.5) rotate(45deg);
+    }
+    .theme-switch.is-dark .ts-icon-dark {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    /* track labels */
+    .ts-track {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px 0 44px;
+      pointer-events: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      color: rgba(224,224,236,0.22);
+      transition: opacity 0.2s;
+    }
+    .theme-switch.is-dark .ts-track {
+      padding: 0 44px 0 10px;
+    }
 
     /* ─── Info section ───────────────────────────────────── */
 
@@ -659,11 +717,13 @@
       .section-inner { padding: 24px 20px; gap: 18px; }
       .hero h1 { font-size: 52px; }
       .hero-sub { font-size: 14px; margin-bottom: 36px; }
-      .ctrl-lang, .ctrl-theme { top: 12px; padding: 3px; }
-      .ctrl-lang { left: 12px; }
-      .ctrl-theme { right: 12px; }
+      .ctrl-lang { top: 12px; left: 12px; padding: 3px; }
       .ctrl-btn { padding: 8px 12px; font-size: 11px; }
-      .ctrl-btn.icon { padding: 8px 10px; font-size: 14px; }
+      .theme-switch { top: 12px; right: 12px; width: 68px; height: 38px; padding: 4px; }
+      .ts-knob { width: 30px; height: 30px; }
+      .theme-switch.is-dark .ts-knob { transform: translateX(30px); }
+      .ts-track { padding: 0 8px 0 38px; }
+      .theme-switch.is-dark .ts-track { padding: 0 38px 0 8px; }
       .byline { bottom: 16px; left: 12px; font-size: 10px; }
       .dots { bottom: 16px; }
     }
@@ -684,7 +744,6 @@
 
   <!-- ─── Active ────────────────────────────────────────── -->
   <section class="s-active" id="s1">
-    <span class="section-watermark" aria-hidden="true">Active</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">01 / 05</div>
@@ -726,7 +785,6 @@
 
   <!-- ─── Suspended ─────────────────────────────────────── -->
   <section class="s-suspended" id="s2">
-    <span class="section-watermark" aria-hidden="true">Suspended</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">02 / 05</div>
@@ -768,7 +826,6 @@
 
   <!-- ─── Expired ───────────────────────────────────────── -->
   <section class="s-expired" id="s3">
-    <span class="section-watermark" aria-hidden="true">Expired</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">03 / 05</div>
@@ -809,7 +866,6 @@
 
   <!-- ─── Revoked ───────────────────────────────────────── -->
   <section class="s-revoked" id="s4">
-    <span class="section-watermark" aria-hidden="true">Revoked</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">04 / 05</div>
@@ -851,7 +907,6 @@
 
   <!-- ─── Blocked (CORS) ────────────────────────────────── -->
   <section class="s-blocked" id="s5">
-    <span class="section-watermark" aria-hidden="true">Blocked</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">05 / 05</div>
@@ -950,11 +1005,27 @@
   <button class="ctrl-btn"   data-lang="en">en</button>
 </div>
 
-<div class="ctrl-theme" id="ctrl-theme">
-  <div class="ctrl-indicator"></div>
-  <button class="ctrl-btn icon on" data-theme="light" title="Light">☀</button>
-  <button class="ctrl-btn icon"    data-theme="dark"  title="Dark">◐</button>
-</div>
+<button class="theme-switch" id="theme-switch" aria-label="Toggle widget theme">
+  <div class="ts-knob">
+    <!-- sun -->
+    <svg class="ts-icon ts-icon-light" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="8" cy="8" r="3" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"/>
+      <line x1="8" y1="1" x2="8" y2="2.5" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="8" y1="13.5" x2="8" y2="15" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="1" y1="8" x2="2.5" y2="8" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="13.5" y1="8" x2="15" y2="8" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="2.93" y1="2.93" x2="4" y2="4" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="12" y1="12" x2="13.07" y2="13.07" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="13.07" y1="2.93" x2="12" y2="4" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="4" y1="12" x2="2.93" y2="13.07" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <!-- moon -->
+    <svg class="ts-icon ts-icon-dark" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="ts-track">dark</div>
+</button>
 
 <!-- ─── Byline ────────────────────────────────────────── -->
 
@@ -1008,7 +1079,6 @@
   document.body.classList.add('widget-light');
   requestAnimationFrame(() => {
     moveIndicator('ctrl-lang');
-    moveIndicator('ctrl-theme');
   });
 
   // Lang buttons
@@ -1022,15 +1092,12 @@
     });
   });
 
-  // Theme buttons
-  document.querySelectorAll('.ctrl-btn[data-theme]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      theme = btn.dataset.theme;
-      document.querySelectorAll('.ctrl-btn[data-theme]').forEach(b => b.classList.remove('on'));
-      btn.classList.add('on');
-      moveIndicator('ctrl-theme');
-      updateWidgets();
-    });
+  // Theme toggle switch
+  const themeSwitch = document.getElementById('theme-switch');
+  themeSwitch.addEventListener('click', () => {
+    theme = theme === 'light' ? 'dark' : 'light';
+    themeSwitch.classList.toggle('is-dark', theme === 'dark');
+    updateWidgets();
   });
 
   // Section dots — scroll tracking
