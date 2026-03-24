@@ -19,10 +19,11 @@
       --sub:      #5a5a72;
       --dim:      #28283a;
 
-      --green: #22c55e;  --green-bg: rgba(34,197,94,0.07);
-      --amber: #f59e0b;  --amber-bg: rgba(245,158,11,0.07);
-      --gray:  #71717a;  --gray-bg:  rgba(113,113,122,0.07);
-      --red:   #ef4444;  --red-bg:   rgba(239,68,68,0.07);
+      --green:  #22c55e;  --green-bg:  rgba(34,197,94,0.07);
+      --amber:  #f59e0b;  --amber-bg:  rgba(245,158,11,0.07);
+      --gray:   #71717a;  --gray-bg:   rgba(113,113,122,0.07);
+      --red:    #ef4444;  --red-bg:    rgba(239,68,68,0.07);
+      --indigo: #818cf8;  --indigo-bg: rgba(129,140,248,0.07);
     }
 
     html, body { height: 100%; }
@@ -59,10 +60,11 @@
     }
 
     /* per-status radial glow from the right */
-    .s-active    { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--green-bg), var(--bg) 70%); }
-    .s-suspended { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--amber-bg), var(--bg) 70%); }
-    .s-expired   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--gray-bg),  var(--bg) 70%); }
-    .s-revoked   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--red-bg),   var(--bg) 70%); }
+    .s-active    { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--green-bg),  var(--bg) 70%); }
+    .s-suspended { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--amber-bg),  var(--bg) 70%); }
+    .s-expired   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--gray-bg),   var(--bg) 70%); }
+    .s-revoked   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--red-bg),    var(--bg) 70%); }
+    .s-blocked   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--indigo-bg), var(--bg) 70%); }
 
     /* ─── Hero ───────────────────────────────────────────── */
 
@@ -141,7 +143,7 @@
       padding: 0 60px;
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
+      align-items: start;
       gap: 64px;
     }
 
@@ -166,18 +168,28 @@
       margin-bottom: 24px;
     }
 
-    .s-active    .status-title { color: var(--green); }
-    .s-suspended .status-title { color: var(--amber); }
-    .s-expired   .status-title { color: var(--gray);  }
-    .s-revoked   .status-title { color: var(--red);   }
+    .s-active    .status-title { color: var(--green);  }
+    .s-suspended .status-title { color: var(--amber);  }
+    .s-expired   .status-title { color: var(--gray);   }
+    .s-revoked   .status-title { color: var(--red);    }
+    .s-blocked   .status-title { color: var(--indigo); }
 
     .status-desc {
       font-size: 15px;
       font-weight: 300;
       color: var(--sub);
       line-height: 1.75;
-      max-width: 340px;
       margin-bottom: 28px;
+    }
+
+    .status-desc code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: var(--text);
     }
 
     .cert-id-chip {
@@ -381,68 +393,64 @@
 
     /* ─── Responsive ─────────────────────────────────────── */
 
-    /* Shrink browser at medium desktop */
+    /* Medium desktop — shrink browser */
     @media (max-width: 1024px) {
       .section-inner { padding: 0 44px; gap: 48px; }
       .browser { width: 320px; }
-      .browser-body { padding: 18px 18px 16px; }
-      /* (320-36)/332 ≈ 0.856 */
+      .browser-body { padding: 18px; }
+      /* usable: 320-36=284, scale: 284/332 ≈ 0.856 */
       .widget-wrap { width: 284px; height: 84px; overflow: hidden; }
       .widget-wrap iframe { transform: scale(0.856); transform-origin: top left; width: 332px !important; height: 98px !important; }
     }
 
-    /* Shrink more at tablet landscape */
+    /* Tablet landscape — shrink more */
     @media (max-width: 860px) {
       .section-inner { gap: 36px; padding: 0 36px; }
-      .browser { width: 260px; }
-      .browser-body { padding: 14px 14px 12px; }
-      /* (260-28)/332 ≈ 0.699 */
-      .widget-wrap { width: 232px; height: 69px; overflow: hidden; }
-      .widget-wrap iframe { transform: scale(0.699); transform-origin: top left; width: 332px !important; height: 98px !important; }
+      .browser { width: 280px; }
+      .browser-body { padding: 14px; }
+      /* usable: 280-28=252, scale: 252/332 ≈ 0.759 */
+      .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
+      .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
     }
 
-    /* Stack: show browser below text */
-    @media (max-width: 640px) {
+    /* Tablet portrait + mobile — stack, always show browser */
+    @media (max-width: 768px) {
       .section-inner {
         grid-template-columns: 1fr;
-        padding: 24px 28px;
+        padding: 32px 24px;
         gap: 24px;
         text-align: center;
         justify-items: center;
-        align-content: center;
       }
       .section-left { align-items: center; }
-      .status-desc { max-width: 100%; }
+      .section-right { display: flex; justify-content: center; width: 100%; }
 
-      .section-right { display: flex; justify-content: center; }
-      .browser { width: 300px; }
-      .browser-body { padding: 16px 16px 14px; }
-      /* (300-32)/332 ≈ 0.807 */
-      .widget-wrap { width: 268px; height: 80px; overflow: hidden; }
-      .widget-wrap iframe { transform: scale(0.807); transform-origin: top left; width: 332px !important; height: 98px !important; }
+      /* Browser fits most phones (360px+): 360-48=312, use 280px */
+      .browser { width: 280px; }
+      .browser-body { padding: 14px; }
+      .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
+      .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
 
-      /* Dots horizontal at bottom */
+      /* Dots go horizontal at bottom, push byline+controls up */
       .dots {
         right: unset; top: unset;
-        bottom: 24px; left: 50%;
+        bottom: 20px; left: 50%;
         transform: translateX(-50%);
         flex-direction: row; gap: 10px;
       }
-      .byline { bottom: 56px; }
-      .controls { bottom: 56px; }
+      .byline { bottom: 52px; }
+      .controls { bottom: 52px; }
     }
 
-    /* Small phone: hide browser */
+    /* Small phone tweaks — keep browser, just compress spacing */
     @media (max-width: 430px) {
-      .section-inner { padding: 20px 20px; gap: 16px; }
-      .section-right { display: none; }
+      .section-inner { padding: 24px 20px; gap: 18px; }
       .hero h1 { font-size: 52px; }
-      .hero-sub { font-size: 14px; margin-bottom: 40px; }
-      .controls { right: 12px; bottom: 52px; padding: 3px; }
-      .ctrl-btn { padding: 6px 10px; font-size: 10px; }
-      .ctrl-btn.icon { padding: 6px 8px; }
-      .byline { bottom: 52px; left: 12px; font-size: 10px; }
-      .dots { bottom: 18px; }
+      .hero-sub { font-size: 14px; margin-bottom: 36px; }
+      .controls { right: 10px; bottom: 50px; padding: 3px; }
+      .ctrl-btn { padding: 6px 9px; font-size: 10px; }
+      .ctrl-btn.icon { padding: 6px 7px; }
+      .byline { bottom: 50px; left: 10px; font-size: 10px; }
     }
   </style>
 </head>
@@ -465,7 +473,7 @@
   <section class="s-active" id="s1">
     <div class="section-inner">
       <div class="section-left">
-        <div class="status-index">01 / 04</div>
+        <div class="status-index">01 / 05</div>
 <h2 class="status-title">Active</h2>
         <p class="status-desc">Certificate is valid and verified. The company is an active member of the BNPL registry.</p>
         <div class="cert-id-chip">FAU-2026-Z5X4M7</div>
@@ -501,7 +509,7 @@
   <section class="s-suspended" id="s2">
     <div class="section-inner">
       <div class="section-left">
-        <div class="status-index">02 / 04</div>
+        <div class="status-index">02 / 05</div>
 <h2 class="status-title">Suspended</h2>
         <p class="status-desc">Certificate is temporarily suspended. Operations are paused until reinstated by the registry.</p>
         <div class="cert-id-chip">FAU-2026-S9S8E9</div>
@@ -537,7 +545,7 @@
   <section class="s-expired" id="s3">
     <div class="section-inner">
       <div class="section-left">
-        <div class="status-index">03 / 04</div>
+        <div class="status-index">03 / 05</div>
 <h2 class="status-title">Expired</h2>
         <p class="status-desc">Certificate has passed its validity date. Renewal is required to restore active status.</p>
         <div class="cert-id-chip">FAU-2026-F9W6F4</div>
@@ -573,7 +581,7 @@
   <section class="s-revoked" id="s4">
     <div class="section-inner">
       <div class="section-left">
-        <div class="status-index">04 / 04</div>
+        <div class="status-index">04 / 05</div>
 <h2 class="status-title">Revoked</h2>
         <p class="status-desc">Certificate has been permanently revoked. The company is no longer part of the registry.</p>
         <div class="cert-id-chip">FAU-2026-Y6B2J2</div>
@@ -594,6 +602,42 @@
               <div class="widget-label" id="lbl-4">Light theme</div>
               <iframe data-cert="FAU-2026-Y6B2J2"
                 src="https://bnpl.chebarash.uz/widget/FAU-2026-Y6B2J2?lang=uz&theme=light"
+                width="332" height="98" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowtransparency="true" title="BNPL TrustMark"></iframe>
+            </div>
+            <div class="sk sk-45"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Blocked (CORS) ────────────────────────────────── -->
+  <section class="s-blocked" id="s5">
+    <div class="section-inner">
+      <div class="section-left">
+        <div class="status-index">05 / 05</div>
+        <h2 class="status-title">Blocked</h2>
+        <p class="status-desc">Widget is embedded from <code>test.chebarash.uz</code> but the certificate allows only <code>chebarash.uz</code>. The request is rejected by CORS policy.</p>
+        <div class="cert-id-chip">FAU-2026-M8A9J6</div>
+      </div>
+      <div class="section-right">
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="bdot bdot-r"></span>
+            <span class="bdot bdot-y"></span>
+            <span class="bdot bdot-g"></span>
+            <span class="browser-url">test.chebarash.uz</span>
+          </div>
+          <div class="browser-body">
+            <div class="sk sk-60"></div>
+            <div class="sk sk-90"></div>
+            <div class="sk sk-80"></div>
+            <div class="widget-wrap">
+              <div class="widget-label" id="lbl-5">Light theme</div>
+              <iframe data-cert="FAU-2026-M8A9J6"
+                src="https://bnpl.chebarash.uz/widget/FAU-2026-M8A9J6?lang=uz&theme=light"
                 width="332" height="98" loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
                 allowtransparency="true" title="BNPL TrustMark"></iframe>
@@ -630,6 +674,7 @@
   <div class="dot" data-target="s2"></div>
   <div class="dot" data-target="s3"></div>
   <div class="dot" data-target="s4"></div>
+  <div class="dot" data-target="s5"></div>
 </div>
 
 <script>
@@ -646,7 +691,7 @@
       const id = iframe.dataset.cert;
       iframe.src = `https://bnpl.chebarash.uz/widget/${id}?lang=${lang}&theme=${theme}`;
     });
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 5; i++) {
       const lbl = document.getElementById(`lbl-${i}`);
       if (lbl) lbl.textContent = themeLabels[theme];
     }
@@ -678,7 +723,7 @@
 
   // Section dots — scroll tracking
   const scroller  = document.getElementById('scroller');
-  const sections  = ['s0','s1','s2','s3','s4'].map(id => document.getElementById(id));
+  const sections  = ['s0','s1','s2','s3','s4','s5'].map(id => document.getElementById(id));
   const dotEls    = document.querySelectorAll('.dots .dot');
 
   function onScroll() {
