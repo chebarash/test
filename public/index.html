@@ -137,17 +137,17 @@
 
     .section-inner {
       width: 100%;
-      max-width: 1080px;
+      max-width: 1100px;
       padding: 0 60px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
-      gap: 80px;
+      gap: 64px;
     }
 
     /* Left: text */
 
-    .section-left { display: flex; flex-direction: column; gap: 0; }
+    .section-left { display: flex; flex-direction: column; gap: 0; min-width: 0; }
 
     .status-index {
       font-family: 'JetBrains Mono', monospace;
@@ -157,43 +157,9 @@
       letter-spacing: 0.05em;
     }
 
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 100px;
-      border: 1px solid;
-      width: fit-content;
-      margin-bottom: 24px;
-    }
-
-    .badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-    }
-
-    .s-active    .status-badge { color: var(--green); border-color: rgba(34,197,94,0.25); }
-    .s-active    .badge-dot    { background: var(--green); box-shadow: 0 0 8px var(--green); animation: blink 2.5s ease-in-out infinite; }
-    .s-suspended .status-badge { color: var(--amber); border-color: rgba(245,158,11,0.25); }
-    .s-suspended .badge-dot    { background: var(--amber); }
-    .s-expired   .status-badge { color: var(--gray);  border-color: rgba(113,113,122,0.25); }
-    .s-expired   .badge-dot    { background: var(--gray); }
-    .s-revoked   .status-badge { color: var(--red);   border-color: rgba(239,68,68,0.25); }
-    .s-revoked   .badge-dot    { background: var(--red); }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.4; }
-    }
-
     .status-title {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(52px, 7vw, 88px);
+      font-size: clamp(36px, 4.5vw, 72px);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 0.9;
@@ -225,38 +191,6 @@
       width: fit-content;
       letter-spacing: 0.05em;
     }
-
-    .cert-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--sub);
-      text-decoration: none;
-      margin-top: 14px;
-      padding: 7px 14px 7px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: transparent;
-      width: fit-content;
-      transition: color 0.15s, border-color 0.15s, background 0.15s;
-      letter-spacing: 0.03em;
-    }
-
-    .cert-link:hover {
-      color: var(--text);
-      border-color: rgba(255,255,255,0.14);
-      background: var(--surface);
-    }
-
-    .cert-link svg {
-      opacity: 0.5;
-      transition: opacity 0.15s;
-      flex-shrink: 0;
-    }
-
-    .cert-link:hover svg { opacity: 1; }
 
     /* Right: widget preview */
 
@@ -447,82 +381,68 @@
 
     /* ─── Responsive ─────────────────────────────────────── */
 
-    /* Large desktop: tighten a touch */
-    @media (max-width: 1200px) {
-      .section-inner { padding: 0 48px; gap: 60px; }
-    }
-
-    /* Tablet landscape (900–1024px): shrink browser */
+    /* Shrink browser at medium desktop */
     @media (max-width: 1024px) {
-      .section-inner { padding: 0 40px; gap: 48px; }
+      .section-inner { padding: 0 44px; gap: 48px; }
       .browser { width: 320px; }
       .browser-body { padding: 18px 18px 16px; }
-      /* scale iframe to fit narrower browser body: (320-36)/332 ≈ 0.856 */
+      /* (320-36)/332 ≈ 0.856 */
       .widget-wrap { width: 284px; height: 84px; overflow: hidden; }
       .widget-wrap iframe { transform: scale(0.856); transform-origin: top left; width: 332px !important; height: 98px !important; }
     }
 
-    /* Tablet portrait (700–900px): keep 2 cols, smaller everything */
-    @media (max-width: 900px) {
-      .section-inner { gap: 36px; padding: 0 32px; }
-      .browser { width: 280px; }
-      .browser-body { padding: 16px 16px 14px; }
-      /* (280-32)/332 ≈ 0.747 */
-      .widget-wrap { width: 248px; height: 73px; overflow: hidden; }
-      .widget-wrap iframe { transform: scale(0.747); transform-origin: top left; width: 332px !important; height: 98px !important; }
+    /* Shrink more at tablet landscape */
+    @media (max-width: 860px) {
+      .section-inner { gap: 36px; padding: 0 36px; }
+      .browser { width: 260px; }
+      .browser-body { padding: 14px 14px 12px; }
+      /* (260-28)/332 ≈ 0.699 */
+      .widget-wrap { width: 232px; height: 69px; overflow: hidden; }
+      .widget-wrap iframe { transform: scale(0.699); transform-origin: top left; width: 332px !important; height: 98px !important; }
     }
 
-    /* Phablet / large phone landscape: stack, show browser */
-    @media (max-width: 720px) {
-      body { overflow: hidden; }
+    /* Stack: show browser below text */
+    @media (max-width: 640px) {
       .section-inner {
         grid-template-columns: 1fr;
-        padding: 28px 28px;
-        gap: 28px;
+        padding: 24px 28px;
+        gap: 24px;
         text-align: center;
         justify-items: center;
         align-content: center;
       }
       .section-left { align-items: center; }
       .status-desc { max-width: 100%; }
-      .cert-link { margin: 14px auto 0; }
 
-      /* Show browser, scaled to fit phone width */
       .section-right { display: flex; justify-content: center; }
       .browser { width: 300px; }
       .browser-body { padding: 16px 16px 14px; }
+      /* (300-32)/332 ≈ 0.807 */
       .widget-wrap { width: 268px; height: 80px; overflow: hidden; }
       .widget-wrap iframe { transform: scale(0.807); transform-origin: top left; width: 332px !important; height: 98px !important; }
 
-      /* Dots move to bottom, section nav becomes horizontal */
+      /* Dots horizontal at bottom */
       .dots {
-        right: unset;
-        top: unset;
-        bottom: 28px;
-        left: 50%;
+        right: unset; top: unset;
+        bottom: 24px; left: 50%;
         transform: translateX(-50%);
-        flex-direction: row;
-        gap: 10px;
+        flex-direction: row; gap: 10px;
       }
-
-      /* Push byline + controls to not overlap nav dots */
-      .byline { bottom: 60px; }
-      .controls { bottom: 60px; }
+      .byline { bottom: 56px; }
+      .controls { bottom: 56px; }
     }
 
-    /* Small phone: hide browser, compact layout */
-    @media (max-width: 480px) {
-      .section-inner { padding: 20px 20px; gap: 20px; }
+    /* Small phone: hide browser */
+    @media (max-width: 430px) {
+      .section-inner { padding: 20px 20px; gap: 16px; }
       .section-right { display: none; }
-      .status-title { font-size: 48px !important; }
       .hero h1 { font-size: 52px; }
       .hero-sub { font-size: 14px; margin-bottom: 40px; }
-
-      .controls { right: 12px; bottom: 56px; padding: 3px; }
+      .controls { right: 12px; bottom: 52px; padding: 3px; }
       .ctrl-btn { padding: 6px 10px; font-size: 10px; }
       .ctrl-btn.icon { padding: 6px 8px; }
-      .byline { bottom: 56px; left: 12px; font-size: 10px; }
-      .dots { bottom: 20px; }
+      .byline { bottom: 52px; left: 12px; font-size: 10px; }
+      .dots { bottom: 18px; }
     }
   </style>
 </head>
@@ -546,14 +466,9 @@
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">01 / 04</div>
-        <div class="status-badge"><span class="badge-dot"></span>Active</div>
-        <h2 class="status-title">Active</h2>
+<h2 class="status-title">Active</h2>
         <p class="status-desc">Certificate is valid and verified. The company is an active member of the BNPL registry.</p>
         <div class="cert-id-chip">FAU-2026-Z5X4M7</div>
-        <a class="cert-link" href="https://bnpl.chebarash.uz/cert/FAU-2026-Z5X4M7" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          View certificate
-        </a>
       </div>
       <div class="section-right">
         <div class="browser">
@@ -587,14 +502,9 @@
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">02 / 04</div>
-        <div class="status-badge"><span class="badge-dot"></span>Suspended</div>
-        <h2 class="status-title">Suspended</h2>
+<h2 class="status-title">Suspended</h2>
         <p class="status-desc">Certificate is temporarily suspended. Operations are paused until reinstated by the registry.</p>
         <div class="cert-id-chip">FAU-2026-S9S8E9</div>
-        <a class="cert-link" href="https://bnpl.chebarash.uz/cert/FAU-2026-S9S8E9" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          View certificate
-        </a>
       </div>
       <div class="section-right">
         <div class="browser">
@@ -628,14 +538,9 @@
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">03 / 04</div>
-        <div class="status-badge"><span class="badge-dot"></span>Expired</div>
-        <h2 class="status-title">Expired</h2>
+<h2 class="status-title">Expired</h2>
         <p class="status-desc">Certificate has passed its validity date. Renewal is required to restore active status.</p>
         <div class="cert-id-chip">FAU-2026-F9W6F4</div>
-        <a class="cert-link" href="https://bnpl.chebarash.uz/cert/FAU-2026-F9W6F4" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          View certificate
-        </a>
       </div>
       <div class="section-right">
         <div class="browser">
@@ -669,14 +574,9 @@
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">04 / 04</div>
-        <div class="status-badge"><span class="badge-dot"></span>Revoked</div>
-        <h2 class="status-title">Revoked</h2>
+<h2 class="status-title">Revoked</h2>
         <p class="status-desc">Certificate has been permanently revoked. The company is no longer part of the registry.</p>
         <div class="cert-id-chip">FAU-2026-Y6B2J2</div>
-        <a class="cert-link" href="https://bnpl.chebarash.uz/cert/FAU-2026-Y6B2J2" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          View certificate
-        </a>
       </div>
       <div class="section-right">
         <div class="browser">
