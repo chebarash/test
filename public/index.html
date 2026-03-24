@@ -268,42 +268,186 @@
       z-index: 100;
       display: flex;
       align-items: center;
-      gap: 2px;
-      padding: 4px;
-      background: rgba(12,12,18,0.8);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+      gap: 0;
+      padding: 3px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 13px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
 
     .ctrl-lang  { left: 20px; }
     .ctrl-theme { right: 20px; }
 
+    /* sliding indicator */
+    .ctrl-indicator {
+      position: absolute;
+      top: 3px; left: 3px;
+      height: calc(100% - 6px);
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 9px;
+      transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), width 0.22s cubic-bezier(0.4,0,0.2,1);
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .ctrl-btn {
+      position: relative;
+      z-index: 1;
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       font-weight: 500;
-      padding: 10px 18px;
+      padding: 10px 17px;
       border-radius: 10px;
       border: none;
       cursor: pointer;
-      color: var(--sub);
+      color: rgba(224,224,236,0.35);
       background: transparent;
-      transition: background 0.15s, color 0.15s;
+      transition: color 0.18s;
       letter-spacing: 0.05em;
       white-space: nowrap;
     }
 
-    .ctrl-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .ctrl-btn:hover { color: rgba(224,224,236,0.75); }
+    .ctrl-btn.on    { color: var(--text); }
+    .ctrl-btn.icon  { font-size: 16px; padding: 10px 13px; }
 
-    .ctrl-btn.on {
-      background: var(--text);
-      color: var(--bg);
+    /* ─── Info section ───────────────────────────────────── */
+
+    .s-info { background: var(--bg); }
+
+    .info-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      margin-bottom: 20px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .ctrl-btn.icon { font-size: 16px; padding: 10px 13px; }
+    .info-heading {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 3.2vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      color: var(--text);
+      margin-bottom: 36px;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .feature-icon {
+      width: 30px; height: 30px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 1px;
+    }
+
+    .feature-body {
+      font-size: 14px;
+      color: var(--sub);
+      line-height: 1.65;
+    }
+
+    .feature-body strong {
+      display: block;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .feature-body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--text);
+    }
+
+    /* URL transform card */
+
+    .url-card {
+      width: 380px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .url-row {
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.7;
+      color: var(--sub);
+      word-break: break-all;
+    }
+
+    .url-row + .url-row { border-top: 1px solid var(--border); }
+
+    .url-seg-cert { color: var(--amber); }
+    .url-seg-dev  { color: var(--green); }
+
+    .url-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 20px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      height: 36px;
+    }
+
+    .url-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .url-divider span {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      white-space: nowrap;
+    }
+
+    .url-result {
+      padding: 14px 20px;
+      font-size: 12px;
+      color: var(--dim);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .url-result strong { color: var(--sub); font-weight: 400; }
 
     /* ─── Fixed: byline ──────────────────────────────────── */
 
@@ -412,6 +556,8 @@
       .browser-body { padding: 14px; }
       .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
       .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
+
+      .url-card { width: 100%; max-width: 340px; }
 
       /* Dots go horizontal at bottom */
       .dots {
@@ -625,15 +771,69 @@
     </div>
   </section>
 
+  <!-- ─── Info ──────────────────────────────────────────── -->
+  <section class="s-info" id="s6">
+    <div class="section-inner">
+      <div class="section-left">
+        <div class="info-eyebrow">Integration</div>
+        <h2 class="info-heading">More than<br>a status badge.</h2>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">↗</div>
+            <div class="feature-body">
+              <strong>Tap to open certificate</strong>
+              The widget is interactive — clicking it navigates the user directly to the company's full certificate page.
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">⌘</div>
+            <div class="feature-body">
+              <strong>Language follows the widget</strong>
+              If the widget is displayed in Uzbek, the certificate page opens in Uzbek. The language setting carries through seamlessly.
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">{}</div>
+            <div class="feature-body">
+              <strong>Integration in one URL swap</strong>
+              Replace <code>/cert/</code> with <code>/dev/</code> in any certificate URL to get the ready-to-paste <code>&lt;iframe&gt;</code> snippet and full parameter reference.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-right">
+        <div class="url-card">
+          <div class="url-row">
+            bnpl.chebarash.uz/<span class="url-seg-cert">cert</span>/FAU-2026-Z5X4M7<br>
+            <span style="opacity:0.45">?lang=uz&amp;theme=light</span>
+          </div>
+          <div class="url-divider">
+            <div class="url-divider-line"></div>
+            <span>swap cert → dev</span>
+            <div class="url-divider-line"></div>
+          </div>
+          <div class="url-row">
+            bnpl.chebarash.uz/<span class="url-seg-dev">dev</span>/FAU-2026-Z5X4M7
+          </div>
+          <div class="url-result">
+            Returns the <strong>iframe embed code</strong>, supported languages, theme options and integration notes.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 <!-- ─── Controls ─────────────────────────────────────── -->
 
-<div class="ctrl-lang">
+<div class="ctrl-lang" id="ctrl-lang">
+  <div class="ctrl-indicator"></div>
   <button class="ctrl-btn on" data-lang="uz">uz</button>
   <button class="ctrl-btn"   data-lang="ru">ru</button>
   <button class="ctrl-btn"   data-lang="en">en</button>
 </div>
 
-<div class="ctrl-theme">
+<div class="ctrl-theme" id="ctrl-theme">
+  <div class="ctrl-indicator"></div>
   <button class="ctrl-btn icon on" data-theme="light" title="Light">☀</button>
   <button class="ctrl-btn icon"    data-theme="dark"  title="Dark">◐</button>
 </div>
@@ -651,6 +851,7 @@
   <div class="dot" data-target="s3"></div>
   <div class="dot" data-target="s4"></div>
   <div class="dot" data-target="s5"></div>
+  <div class="dot" data-target="s6"></div>
 </div>
 
 <script>
@@ -674,8 +875,23 @@
     document.body.classList.toggle('widget-light', theme === 'light');
   }
 
-  // Set initial body class
+  // Sliding indicator
+  function moveIndicator(containerId) {
+    const wrap = document.getElementById(containerId);
+    if (!wrap) return;
+    const active = wrap.querySelector('.ctrl-btn.on');
+    const ind    = wrap.querySelector('.ctrl-indicator');
+    if (!active || !ind) return;
+    ind.style.width     = active.offsetWidth + 'px';
+    ind.style.transform = `translateX(${active.offsetLeft - 3}px)`;
+  }
+
+  // Set initial state
   document.body.classList.add('widget-light');
+  requestAnimationFrame(() => {
+    moveIndicator('ctrl-lang');
+    moveIndicator('ctrl-theme');
+  });
 
   // Lang buttons
   document.querySelectorAll('.ctrl-btn[data-lang]').forEach(btn => {
@@ -683,6 +899,7 @@
       lang = btn.dataset.lang;
       document.querySelectorAll('.ctrl-btn[data-lang]').forEach(b => b.classList.remove('on'));
       btn.classList.add('on');
+      moveIndicator('ctrl-lang');
       updateWidgets();
     });
   });
@@ -693,12 +910,13 @@
       theme = btn.dataset.theme;
       document.querySelectorAll('.ctrl-btn[data-theme]').forEach(b => b.classList.remove('on'));
       btn.classList.add('on');
+      moveIndicator('ctrl-theme');
       updateWidgets();
     });
   });
 
   // Section dots — scroll tracking
-  const sections = ['s0','s1','s2','s3','s4','s5'].map(id => document.getElementById(id));
+  const sections = ['s0','s1','s2','s3','s4','s5','s6'].map(id => document.getElementById(id));
   const dotEls   = document.querySelectorAll('.dots .dot');
 
   function onScroll() {
