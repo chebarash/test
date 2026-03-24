@@ -427,19 +427,102 @@
       transform: scale(1.3);
     }
 
+    /* ─── Light widget theme — browser window ────────────── */
+
+    body.widget-light .browser {
+      background: #ffffff;
+      border-color: rgba(0,0,0,0.09);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.07);
+    }
+    body.widget-light .browser-bar {
+      background: #f7f7f7;
+      border-bottom-color: rgba(0,0,0,0.08);
+    }
+    body.widget-light .bdot-r { background: #ff5f57; }
+    body.widget-light .bdot-y { background: #ffbd2e; }
+    body.widget-light .bdot-g { background: #28c840; }
+    body.widget-light .browser-url { background: #ebebeb; color: #999; }
+    body.widget-light .sk { background: #ededed; }
+    body.widget-light .widget-label { color: #c0c0c0; }
+
     /* ─── Responsive ─────────────────────────────────────── */
 
-    @media (max-width: 768px) {
+    /* Large desktop: tighten a touch */
+    @media (max-width: 1200px) {
+      .section-inner { padding: 0 48px; gap: 60px; }
+    }
+
+    /* Tablet landscape (900–1024px): shrink browser */
+    @media (max-width: 1024px) {
+      .section-inner { padding: 0 40px; gap: 48px; }
+      .browser { width: 320px; }
+      .browser-body { padding: 18px 18px 16px; }
+      /* scale iframe to fit narrower browser body: (320-36)/332 ≈ 0.856 */
+      .widget-wrap { width: 284px; height: 84px; overflow: hidden; }
+      .widget-wrap iframe { transform: scale(0.856); transform-origin: top left; width: 332px !important; height: 98px !important; }
+    }
+
+    /* Tablet portrait (700–900px): keep 2 cols, smaller everything */
+    @media (max-width: 900px) {
+      .section-inner { gap: 36px; padding: 0 32px; }
+      .browser { width: 280px; }
+      .browser-body { padding: 16px 16px 14px; }
+      /* (280-32)/332 ≈ 0.747 */
+      .widget-wrap { width: 248px; height: 73px; overflow: hidden; }
+      .widget-wrap iframe { transform: scale(0.747); transform-origin: top left; width: 332px !important; height: 98px !important; }
+    }
+
+    /* Phablet / large phone landscape: stack, show browser */
+    @media (max-width: 720px) {
+      body { overflow: hidden; }
       .section-inner {
         grid-template-columns: 1fr;
-        padding: 0 28px;
-        gap: 36px;
+        padding: 28px 28px;
+        gap: 28px;
         text-align: center;
+        justify-items: center;
         align-content: center;
       }
       .section-left { align-items: center; }
+      .status-desc { max-width: 100%; }
+      .cert-link { margin: 14px auto 0; }
+
+      /* Show browser, scaled to fit phone width */
+      .section-right { display: flex; justify-content: center; }
+      .browser { width: 300px; }
+      .browser-body { padding: 16px 16px 14px; }
+      .widget-wrap { width: 268px; height: 80px; overflow: hidden; }
+      .widget-wrap iframe { transform: scale(0.807); transform-origin: top left; width: 332px !important; height: 98px !important; }
+
+      /* Dots move to bottom, section nav becomes horizontal */
+      .dots {
+        right: unset;
+        top: unset;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      /* Push byline + controls to not overlap nav dots */
+      .byline { bottom: 60px; }
+      .controls { bottom: 60px; }
+    }
+
+    /* Small phone: hide browser, compact layout */
+    @media (max-width: 480px) {
+      .section-inner { padding: 20px 20px; gap: 20px; }
       .section-right { display: none; }
-      .status-title { font-size: 56px; }
+      .status-title { font-size: 48px !important; }
+      .hero h1 { font-size: 52px; }
+      .hero-sub { font-size: 14px; margin-bottom: 40px; }
+
+      .controls { right: 12px; bottom: 56px; padding: 3px; }
+      .ctrl-btn { padding: 6px 10px; font-size: 10px; }
+      .ctrl-btn.icon { padding: 6px 8px; }
+      .byline { bottom: 56px; left: 12px; font-size: 10px; }
+      .dots { bottom: 20px; }
     }
   </style>
 </head>
@@ -667,11 +750,11 @@
       const lbl = document.getElementById(`lbl-${i}`);
       if (lbl) lbl.textContent = themeLabels[theme];
     }
-    // browser dot colors for dark theme
-    document.querySelectorAll('.browser').forEach(b => {
-      b.style.background = theme === 'dark' ? '#0c0c10' : 'var(--surface)';
-    });
+    document.body.classList.toggle('widget-light', theme === 'light');
   }
+
+  // Set initial body class
+  document.body.classList.add('widget-light');
 
   // Lang buttons
   document.querySelectorAll('.ctrl-btn[data-lang]').forEach(btn => {
