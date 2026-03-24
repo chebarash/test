@@ -65,12 +65,82 @@
       scroll-snap-stop: normal;
     }
 
-    /* per-status radial glow from the right */
-    .s-active    { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--green-bg),  var(--bg) 70%); }
-    .s-suspended { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--amber-bg),  var(--bg) 70%); }
-    .s-expired   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--gray-bg),   var(--bg) 70%); }
-    .s-revoked   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--red-bg),    var(--bg) 70%); }
-    .s-blocked   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--indigo-bg), var(--bg) 70%); }
+    /* per-status radial glow — larger, more dramatic */
+    .s-active    { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--green-bg),  var(--bg) 60%); }
+    .s-suspended { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--amber-bg),  var(--bg) 60%); }
+    .s-expired   { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--gray-bg),   var(--bg) 60%); }
+    .s-revoked   { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--red-bg),    var(--bg) 60%); }
+    .s-blocked   { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--indigo-bg), var(--bg) 60%); }
+
+    /* per-status browser glow */
+    .s-active    .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(34,197,94,0.12),   0 0 0 1px var(--border); }
+    .s-suspended .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(245,158,11,0.12),  0 0 0 1px var(--border); }
+    .s-expired   .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(113,113,122,0.1),  0 0 0 1px var(--border); }
+    .s-revoked   .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(239,68,68,0.12),   0 0 0 1px var(--border); }
+    .s-blocked   .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(129,140,248,0.12), 0 0 0 1px var(--border); }
+
+    /* ─── Watermark ──────────────────────────────────────── */
+
+    .section-watermark {
+      position: absolute;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(120px, 22vw, 260px);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      bottom: -0.1em;
+      right: -0.03em;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      opacity: 0.045;
+    }
+    .s-active    .section-watermark { color: var(--green); }
+    .s-suspended .section-watermark { color: var(--amber); }
+    .s-expired   .section-watermark { color: var(--gray); }
+    .s-revoked   .section-watermark { color: var(--red); }
+    .s-blocked   .section-watermark { color: var(--indigo); }
+
+    /* ─── Status rule ────────────────────────────────────── */
+
+    .status-rule {
+      width: 32px;
+      height: 2px;
+      border-radius: 1px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+    .s-active    .status-rule { background: var(--green); }
+    .s-suspended .status-rule { background: var(--amber); }
+    .s-expired   .status-rule { background: var(--gray); }
+    .s-revoked   .status-rule { background: var(--red); }
+    .s-blocked   .status-rule { background: var(--indigo); }
+
+    /* ─── Status tags ────────────────────────────────────── */
+
+    .status-tags {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+    .status-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid;
+    }
+    .s-active    .status-tag { color: var(--green);  border-color: rgba(34,197,94,0.25);   background: rgba(34,197,94,0.06); }
+    .s-suspended .status-tag { color: var(--amber);  border-color: rgba(245,158,11,0.25);  background: rgba(245,158,11,0.06); }
+    .s-expired   .status-tag { color: var(--gray);   border-color: rgba(113,113,122,0.25); background: rgba(113,113,122,0.06); }
+    .s-revoked   .status-tag { color: var(--red);    border-color: rgba(239,68,68,0.25);   background: rgba(239,68,68,0.06); }
+    .s-blocked   .status-tag { color: var(--indigo); border-color: rgba(129,140,248,0.25); background: rgba(129,140,248,0.06); }
+
+    /* tall skeleton for browser hero block */
+    .sk-tall { height: 56px !important; border-radius: 8px !important; }
 
     /* ─── Hero ───────────────────────────────────────────── */
 
@@ -565,7 +635,8 @@
       .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
       .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
 
-      html { scroll-snap-type: y proximity; }
+      html { scroll-snap-type: y mandatory; }
+      html.in-info { scroll-snap-type: y proximity; }
       .s-info { scroll-snap-align: start; padding-bottom: 100px; }
 
       /* Info section: left-aligned, full width */
@@ -613,12 +684,19 @@
 
   <!-- ─── Active ────────────────────────────────────────── -->
   <section class="s-active" id="s1">
+    <span class="section-watermark" aria-hidden="true">Active</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">01 / 05</div>
-<h2 class="status-title">Active</h2>
+        <div class="status-rule"></div>
+        <h2 class="status-title">Active</h2>
         <p class="status-desc">Certificate is valid and verified. The company is an active member of the BNPL registry.</p>
-</div>
+        <div class="status-tags">
+          <span class="status-tag">verified</span>
+          <span class="status-tag">cors · ok</span>
+          <span class="status-tag">live</span>
+        </div>
+      </div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -648,12 +726,19 @@
 
   <!-- ─── Suspended ─────────────────────────────────────── -->
   <section class="s-suspended" id="s2">
+    <span class="section-watermark" aria-hidden="true">Suspended</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">02 / 05</div>
-<h2 class="status-title">Suspended</h2>
+        <div class="status-rule"></div>
+        <h2 class="status-title">Suspended</h2>
         <p class="status-desc">Certificate is temporarily suspended. Operations are paused until reinstated by the registry.</p>
-</div>
+        <div class="status-tags">
+          <span class="status-tag">paused</span>
+          <span class="status-tag">reversible</span>
+          <span class="status-tag">registry hold</span>
+        </div>
+      </div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -683,12 +768,18 @@
 
   <!-- ─── Expired ───────────────────────────────────────── -->
   <section class="s-expired" id="s3">
+    <span class="section-watermark" aria-hidden="true">Expired</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">03 / 05</div>
-<h2 class="status-title">Expired</h2>
+        <div class="status-rule"></div>
+        <h2 class="status-title">Expired</h2>
         <p class="status-desc">Certificate has passed its validity date. Renewal is required to restore active status.</p>
-</div>
+        <div class="status-tags">
+          <span class="status-tag">past due</span>
+          <span class="status-tag">renewal required</span>
+        </div>
+      </div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -718,12 +809,19 @@
 
   <!-- ─── Revoked ───────────────────────────────────────── -->
   <section class="s-revoked" id="s4">
+    <span class="section-watermark" aria-hidden="true">Revoked</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">04 / 05</div>
-<h2 class="status-title">Revoked</h2>
+        <div class="status-rule"></div>
+        <h2 class="status-title">Revoked</h2>
         <p class="status-desc">Certificate has been permanently revoked. The company is no longer part of the registry.</p>
-</div>
+        <div class="status-tags">
+          <span class="status-tag">permanent</span>
+          <span class="status-tag">removed</span>
+          <span class="status-tag">non-recoverable</span>
+        </div>
+      </div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -753,12 +851,18 @@
 
   <!-- ─── Blocked (CORS) ────────────────────────────────── -->
   <section class="s-blocked" id="s5">
+    <span class="section-watermark" aria-hidden="true">Blocked</span>
     <div class="section-inner">
       <div class="section-left">
         <div class="status-index">05 / 05</div>
+        <div class="status-rule"></div>
         <h2 class="status-title">Blocked</h2>
         <p class="status-desc">Widget is embedded from <code>test.chebarash.uz</code> but the certificate allows only <code>chebarash.uz</code>. The request is rejected by CORS policy.</p>
-</div>
+        <div class="status-tags">
+          <span class="status-tag">cors error</span>
+          <span class="status-tag">domain mismatch</span>
+        </div>
+      </div>
       <div class="section-right">
         <div class="browser">
           <div class="browser-bar">
@@ -932,6 +1036,14 @@
   // Section dots — scroll tracking
   const sections = ['s0','s1','s2','s3','s4','s5','s6'].map(id => document.getElementById(id));
   const dotEls   = document.querySelectorAll('.dots .dot');
+  const s6el     = document.getElementById('s6');
+
+  // Switch snap mode: mandatory for s0-s5, proximity once inside s6 on mobile
+  function updateSnapMode() {
+    if (window.innerWidth > 768 || !s6el) return;
+    const inInfo = window.scrollY >= s6el.offsetTop - 20;
+    document.documentElement.classList.toggle('in-info', inInfo);
+  }
 
   function onScroll() {
     const mid = window.scrollY + window.innerHeight / 2;
@@ -940,9 +1052,11 @@
       if (s.offsetTop <= mid) active = i;
     });
     dotEls.forEach((d, i) => d.classList.toggle('active', i === active));
+    updateSnapMode();
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', updateSnapMode);
 
   dotEls.forEach(dot => {
     dot.addEventListener('click', () => {
