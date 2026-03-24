@@ -57,6 +57,14 @@
       overflow: hidden;
     }
 
+    /* Last section: taller to fit content, no forced snap stop */
+    .s-info {
+      height: auto;
+      min-height: 100vh;
+      padding-bottom: 80px;
+      scroll-snap-stop: normal;
+    }
+
     /* per-status radial glow from the right */
     .s-active    { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--green-bg),  var(--bg) 70%); }
     .s-suspended { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--amber-bg),  var(--bg) 70%); }
@@ -557,6 +565,8 @@
       .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
       .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
 
+      .s-info { scroll-snap-align: none; padding-bottom: 100px; }
+
       /* Info section: left-aligned, full width */
       .s-info .section-inner { text-align: left; justify-items: stretch; }
       .s-info .section-left  { align-items: flex-start; width: 100%; }
@@ -808,8 +818,7 @@
       <div class="section-right">
         <div class="url-card">
           <div class="url-row">
-            bnpl.chebarash.uz/<span class="url-seg-cert">cert</span>/FAU-2026-Z5X4M7<br>
-            <span style="opacity:0.45">?lang=uz&amp;theme=light</span>
+            bnpl.chebarash.uz/<span class="url-seg-cert">cert</span>/FAU-2026-Z5X4M7
           </div>
           <div class="url-divider">
             <div class="url-divider-line"></div>
