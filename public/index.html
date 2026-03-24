@@ -557,7 +557,11 @@
       .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
       .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
 
-      .url-card { width: 100%; max-width: 340px; }
+      /* Info section: left-aligned, full width */
+      .s-info .section-inner { text-align: left; justify-items: stretch; }
+      .s-info .section-left  { align-items: flex-start; width: 100%; }
+      .s-info .section-right { justify-content: flex-start; }
+      .s-info .url-card      { width: 100%; max-width: 100%; }
 
       /* Dots go horizontal at bottom */
       .dots {
