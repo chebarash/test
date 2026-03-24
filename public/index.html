@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BNPL TrustMark — Widget Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0a0d;
+      --surface:  #12121a;
+      --card:     #18181f;
+      --border:   rgba(255,255,255,0.07);
+      --text:     #e0e0ec;
+      --sub:      #5a5a72;
+      --dim:      #28283a;
+
+      --green: #22c55e;  --green-bg: rgba(34,197,94,0.07);
+      --amber: #f59e0b;  --amber-bg: rgba(245,158,11,0.07);
+      --gray:  #71717a;  --gray-bg:  rgba(113,113,122,0.07);
+      --red:   #ef4444;  --red-bg:   rgba(239,68,68,0.07);
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    /* ─── Scroll container ───────────────────────────────── */
+
+    .scroller {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .scroller::-webkit-scrollbar { display: none; }
+
+    /* ─── Sections ───────────────────────────────────────── */
+
+    section {
+      height: 100vh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* per-status radial glow from the right */
+    .s-active    { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--green-bg), var(--bg) 70%); }
+    .s-suspended { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--amber-bg), var(--bg) 70%); }
+    .s-expired   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--gray-bg),  var(--bg) 70%); }
+    .s-revoked   { background: radial-gradient(ellipse 55% 80% at 85% 50%, var(--red-bg),   var(--bg) 70%); }
+
+    /* ─── Hero ───────────────────────────────────────────── */
+
+    .hero {
+      background: var(--bg);
+      flex-direction: column;
+      text-align: center;
+      gap: 0;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(52px, 9vw, 100px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--sub);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--sub);
+      max-width: 400px;
+      line-height: 1.75;
+      margin-bottom: 52px;
+    }
+
+    .scroll-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scroll-hint span {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--dim), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.2); transform-origin: top; }
+    }
+
+    /* ─── Status sections ────────────────────────────────── */
+
+    .section-inner {
+      width: 100%;
+      max-width: 1080px;
+      padding: 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 80px;
+    }
+
+    /* Left: text */
+
+    .section-left { display: flex; flex-direction: column; gap: 0; }
+
+    .status-index {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      margin-bottom: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid;
+      width: fit-content;
+      margin-bottom: 24px;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+
+    .s-active    .status-badge { color: var(--green); border-color: rgba(34,197,94,0.25); }
+    .s-active    .badge-dot    { background: var(--green); box-shadow: 0 0 8px var(--green); animation: blink 2.5s ease-in-out infinite; }
+    .s-suspended .status-badge { color: var(--amber); border-color: rgba(245,158,11,0.25); }
+    .s-suspended .badge-dot    { background: var(--amber); }
+    .s-expired   .status-badge { color: var(--gray);  border-color: rgba(113,113,122,0.25); }
+    .s-expired   .badge-dot    { background: var(--gray); }
+    .s-revoked   .status-badge { color: var(--red);   border-color: rgba(239,68,68,0.25); }
+    .s-revoked   .badge-dot    { background: var(--red); }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    .status-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      margin-bottom: 24px;
+    }
+
+    .s-active    .status-title { color: var(--green); }
+    .s-suspended .status-title { color: var(--amber); }
+    .s-expired   .status-title { color: var(--gray);  }
+    .s-revoked   .status-title { color: var(--red);   }
+
+    .status-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--sub);
+      line-height: 1.75;
+      max-width: 340px;
+      margin-bottom: 28px;
+    }
+
+    .cert-id-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--sub);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      width: fit-content;
+      letter-spacing: 0.05em;
+    }
+
+    .cert-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--sub);
+      text-decoration: none;
+      margin-top: 14px;
+      padding: 7px 14px 7px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      width: fit-content;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      letter-spacing: 0.03em;
+    }
+
+    .cert-link:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.14);
+      background: var(--surface);
+    }
+
+    .cert-link svg {
+      opacity: 0.5;
+      transition: opacity 0.15s;
+      flex-shrink: 0;
+    }
+
+    .cert-link:hover svg { opacity: 1; }
+
+    /* Right: widget preview */
+
+    .section-right { display: flex; justify-content: center; }
+
+    .browser {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      width: 380px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+    }
+
+    .browser-bar {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .bdot { width: 9px; height: 9px; border-radius: 50%; }
+    .bdot-r { background: #3a2020; }
+    .bdot-y { background: #2e2a10; }
+    .bdot-g { background: #0f2e1a; }
+
+    .browser-url {
+      flex: 1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--sub);
+      background: var(--card);
+      padding: 5px 12px;
+      border-radius: 6px;
+      margin-left: 4px;
+    }
+
+    .browser-body {
+      padding: 24px 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sk { height: 9px; border-radius: 4px; background: var(--card); }
+    .sk-80 { width: 80%; }
+    .sk-60 { width: 60%; }
+    .sk-90 { width: 90%; }
+    .sk-45 { width: 45%; }
+
+    .widget-wrap {
+      margin: 12px 0 10px;
+    }
+
+    .widget-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 8px;
+    }
+
+    iframe {
+      display: block;
+      border: none;
+      overflow: hidden;
+    }
+
+    /* ─── Fixed: controls ────────────────────────────────── */
+
+    .controls {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 1px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .ctrl-sep {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      margin: 0 2px;
+    }
+
+    .ctrl-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 7px 13px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      color: var(--sub);
+      background: transparent;
+      transition: all 0.15s;
+      letter-spacing: 0.04em;
+    }
+
+    .ctrl-btn:hover { color: var(--text); }
+
+    .ctrl-btn.on {
+      background: var(--card);
+      color: var(--text);
+    }
+
+    /* theme icon buttons */
+    .ctrl-btn.icon { font-size: 13px; padding: 7px 10px; }
+
+    /* ─── Fixed: byline ──────────────────────────────────── */
+
+    .byline {
+      position: fixed;
+      bottom: 28px;
+      left: 28px;
+      z-index: 100;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--sub);
+      letter-spacing: 0.02em;
+    }
+
+    .byline a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid var(--dim);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .byline a:hover { color: var(--text); border-color: var(--sub); }
+
+    /* ─── Section dots ───────────────────────────────────── */
+
+    .dots {
+      position: fixed;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--dim);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      background: var(--text);
+      transform: scale(1.3);
+    }
+
+    /* ─── Responsive ─────────────────────────────────────── */
+
+    @media (max-width: 768px) {
+      .section-inner {
+        grid-template-columns: 1fr;
+        padding: 0 28px;
+        gap: 36px;
+        text-align: center;
+        align-content: center;
+      }
+      .section-left { align-items: center; }
+      .section-right { display: none; }
+      .status-title { font-size: 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scroller" id="scroller">
+
+  <!-- ─── Hero ──────────────────────────────────────────── -->
+  <section class="hero" id="s0">
+    <p class="hero-eyebrow">BNPL TrustMark</p>
+    <h1>Widget<br><em>showcase</em></h1>
+    <p class="hero-sub">An embeddable iframe badge that reflects a company's certificate status in real time.</p>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ─── Active ────────────────────────────────────────── -->
+  <section class="s-active" id="s1">
+    <div class="section-inner">
+      <div class="section-left">
+        <div class="status-index">01 / 04</div>
+        <div class="status-badge"><span class="badge-dot"></span>Active</div>
+        <h2 class="status-title">Active</h2>
+        <p class="status-desc">Certificate is valid and verified. The company is an active member of the BNPL registry.</p>
+        <div class="cert-id-chip">FAU-2026-Z5X4M7</div>
+        <a class="cert-link" href="https://bnpl.chebarash.uz/cert/FAU-2026-Z5X4M7" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          View certificate
+        </a>
+      </div>
+      <div class="section-right">
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="bdot bdot-r"></span>
+            <span class="bdot bdot-y"></span>
+            <span class="bdot bdot-g"></span>
+            <span class="browser-url">yourcompany.uz</span>
+          </div>
+          <div class="browser-body">
+            <div class="sk sk-60"></div>
+            <div class="sk sk-90"></div>
+            <div class="sk sk-80"></div>
+            <div class="widget-wrap">
+              <div class="widget-label" id="lbl-1">Light theme</div>
+              <iframe data-cert="FAU-2026-Z5X4M7"
+                src="https://bnpl.chebarash.uz/widget/FAU-2026-Z5X4M7?lang=uz&theme=light"
+                width="332" height="98" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowtransparency="true" title="BNPL TrustMark"></iframe>
+            </div>
+            <div class="sk sk-45"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Suspended ─────────────────────────────────────── -->
+  <section class="s-suspended" id="s2">
+    <div class="section-inner">
+      <div class="section-left">
+        <div class="status-index">02 / 04</div>
+        <div class="status-badge"><span class="badge-dot"></span>Suspended</div>
+        <h2 class="status-title">Suspended</h2>
+        <p class="status-desc">Certificate is temporarily suspended. Operations are paused until reinstated by the registry.</p>
+        <div class="cert-id-chip">FAU-2026-S9S8E9</div>
+        <a class="cert-link" href="https://bnpl.chebarash.uz/cert/FAU-2026-S9S8E9" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          View certificate
+        </a>
+      </div>
+      <div class="section-right">
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="bdot bdot-r"></span>
+            <span class="bdot bdot-y"></span>
+            <span class="bdot bdot-g"></span>
+            <span class="browser-url">yourcompany.uz</span>
+          </div>
+          <div class="browser-body">
+            <div class="sk sk-60"></div>
+            <div class="sk sk-90"></div>
+            <div class="sk sk-80"></div>
+            <div class="widget-wrap">
+              <div class="widget-label" id="lbl-2">Light theme</div>
+              <iframe data-cert="FAU-2026-S9S8E9"
+                src="https://bnpl.chebarash.uz/widget/FAU-2026-S9S8E9?lang=uz&theme=light"
+                width="332" height="98" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowtransparency="true" title="BNPL TrustMark"></iframe>
+            </div>
+            <div class="sk sk-45"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Expired ───────────────────────────────────────── -->
+  <section class="s-expired" id="s3">
+    <div class="section-inner">
+      <div class="section-left">
+        <div class="status-index">03 / 04</div>
+        <div class="status-badge"><span class="badge-dot"></span>Expired</div>
+        <h2 class="status-title">Expired</h2>
+        <p class="status-desc">Certificate has passed its validity date. Renewal is required to restore active status.</p>
+        <div class="cert-id-chip">FAU-2026-F9W6F4</div>
+        <a class="cert-link" href="https://bnpl.chebarash.uz/cert/FAU-2026-F9W6F4" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          View certificate
+        </a>
+      </div>
+      <div class="section-right">
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="bdot bdot-r"></span>
+            <span class="bdot bdot-y"></span>
+            <span class="bdot bdot-g"></span>
+            <span class="browser-url">yourcompany.uz</span>
+          </div>
+          <div class="browser-body">
+            <div class="sk sk-60"></div>
+            <div class="sk sk-90"></div>
+            <div class="sk sk-80"></div>
+            <div class="widget-wrap">
+              <div class="widget-label" id="lbl-3">Light theme</div>
+              <iframe data-cert="FAU-2026-F9W6F4"
+                src="https://bnpl.chebarash.uz/widget/FAU-2026-F9W6F4?lang=uz&theme=light"
+                width="332" height="98" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowtransparency="true" title="BNPL TrustMark"></iframe>
+            </div>
+            <div class="sk sk-45"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Revoked ───────────────────────────────────────── -->
+  <section class="s-revoked" id="s4">
+    <div class="section-inner">
+      <div class="section-left">
+        <div class="status-index">04 / 04</div>
+        <div class="status-badge"><span class="badge-dot"></span>Revoked</div>
+        <h2 class="status-title">Revoked</h2>
+        <p class="status-desc">Certificate has been permanently revoked. The company is no longer part of the registry.</p>
+        <div class="cert-id-chip">FAU-2026-Y6B2J2</div>
+        <a class="cert-link" href="https://bnpl.chebarash.uz/cert/FAU-2026-Y6B2J2" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          View certificate
+        </a>
+      </div>
+      <div class="section-right">
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="bdot bdot-r"></span>
+            <span class="bdot bdot-y"></span>
+            <span class="bdot bdot-g"></span>
+            <span class="browser-url">yourcompany.uz</span>
+          </div>
+          <div class="browser-body">
+            <div class="sk sk-60"></div>
+            <div class="sk sk-90"></div>
+            <div class="sk sk-80"></div>
+            <div class="widget-wrap">
+              <div class="widget-label" id="lbl-4">Light theme</div>
+              <iframe data-cert="FAU-2026-Y6B2J2"
+                src="https://bnpl.chebarash.uz/widget/FAU-2026-Y6B2J2?lang=uz&theme=light"
+                width="332" height="98" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowtransparency="true" title="BNPL TrustMark"></iframe>
+            </div>
+            <div class="sk sk-45"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ─── Floating controls ─────────────────────────────── -->
+
+<div class="controls">
+  <button class="ctrl-btn on" data-lang="uz">uz</button>
+  <button class="ctrl-btn"   data-lang="ru">ru</button>
+  <button class="ctrl-btn"   data-lang="en">en</button>
+  <div class="ctrl-sep"></div>
+  <button class="ctrl-btn icon on" data-theme="light" title="Light">☀</button>
+  <button class="ctrl-btn icon"    data-theme="dark"  title="Dark">◐</button>
+</div>
+
+<!-- ─── Byline ────────────────────────────────────────── -->
+
+<div class="byline">by <a href="https://chebarash.uz" target="_blank" rel="noopener">chebarash</a></div>
+
+<!-- ─── Section dots ──────────────────────────────────── -->
+
+<div class="dots" id="dots">
+  <div class="dot active" data-target="s0"></div>
+  <div class="dot" data-target="s1"></div>
+  <div class="dot" data-target="s2"></div>
+  <div class="dot" data-target="s3"></div>
+  <div class="dot" data-target="s4"></div>
+</div>
+
+<script>
+  let lang  = 'uz';
+  let theme = 'light';
+
+  const themeLabels = {
+    light: 'Light theme',
+    dark:  'Dark theme',
+  };
+
+  function updateWidgets() {
+    document.querySelectorAll('iframe[data-cert]').forEach(iframe => {
+      const id = iframe.dataset.cert;
+      iframe.src = `https://bnpl.chebarash.uz/widget/${id}?lang=${lang}&theme=${theme}`;
+    });
+    for (let i = 1; i <= 4; i++) {
+      const lbl = document.getElementById(`lbl-${i}`);
+      if (lbl) lbl.textContent = themeLabels[theme];
+    }
+    // browser dot colors for dark theme
+    document.querySelectorAll('.browser').forEach(b => {
+      b.style.background = theme === 'dark' ? '#0c0c10' : 'var(--surface)';
+    });
+  }
+
+  // Lang buttons
+  document.querySelectorAll('.ctrl-btn[data-lang]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      lang = btn.dataset.lang;
+      document.querySelectorAll('.ctrl-btn[data-lang]').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      updateWidgets();
+    });
+  });
+
+  // Theme buttons
+  document.querySelectorAll('.ctrl-btn[data-theme]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      theme = btn.dataset.theme;
+      document.querySelectorAll('.ctrl-btn[data-theme]').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      updateWidgets();
+    });
+  });
+
+  // Section dots — scroll tracking
+  const scroller  = document.getElementById('scroller');
+  const sections  = ['s0','s1','s2','s3','s4'].map(id => document.getElementById(id));
+  const dotEls    = document.querySelectorAll('.dots .dot');
+
+  function onScroll() {
+    const mid = scroller.scrollTop + window.innerHeight / 2;
+    let active = 0;
+    sections.forEach((s, i) => {
+      if (s.offsetTop <= mid) active = i;
+    });
+    dotEls.forEach((d, i) => d.classList.toggle('active', i === active));
+  }
+
+  scroller.addEventListener('scroll', onScroll, { passive: true });
+
+  dotEls.forEach(dot => {
+    dot.addEventListener('click', () => {
+      document.getElementById(dot.dataset.target)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
