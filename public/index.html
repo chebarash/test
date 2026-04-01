@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,24 +9,37 @@
   <link rel="shortcut icon" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
-      --bg:       #0a0a0d;
-      --surface:  #12121a;
-      --card:     #18181f;
-      --border:   rgba(255,255,255,0.07);
-      --text:     #e0e0ec;
-      --sub:      #5a5a72;
-      --dim:      #28283a;
+      --bg: #0a0a0d;
+      --surface: #12121a;
+      --card: #18181f;
+      --border: rgba(255, 255, 255, 0.07);
+      --text: #e0e0ec;
+      --sub: #5a5a72;
+      --dim: #28283a;
 
-      --green:  #22c55e;  --green-bg:  rgba(34,197,94,0.13);
-      --amber:  #f59e0b;  --amber-bg:  rgba(245,158,11,0.13);
-      --gray:   #71717a;  --gray-bg:   rgba(113,113,122,0.13);
-      --red:    #ef4444;  --red-bg:    rgba(239,68,68,0.13);
-      --indigo: #818cf8;  --indigo-bg: rgba(129,140,248,0.13);
+      --green: #22c55e;
+      --green-bg: rgba(34, 197, 94, 0.13);
+      --amber: #f59e0b;
+      --amber-bg: rgba(245, 158, 11, 0.13);
+      --gray: #71717a;
+      --gray-bg: rgba(113, 113, 122, 0.13);
+      --red: #ef4444;
+      --red-bg: rgba(239, 68, 68, 0.13);
+      --indigo: #818cf8;
+      --indigo-bg: rgba(129, 140, 248, 0.13);
     }
 
     html {
@@ -35,7 +49,10 @@
       scroll-behavior: smooth;
       scrollbar-width: none;
     }
-    html::-webkit-scrollbar { display: none; }
+
+    html::-webkit-scrollbar {
+      display: none;
+    }
 
     body {
       background: var(--bg);
@@ -66,18 +83,46 @@
     }
 
     /* per-status radial glow — larger, more dramatic */
-    .s-active    { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--green-bg),  var(--bg) 60%); }
-    .s-suspended { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--amber-bg),  var(--bg) 60%); }
-    .s-expired   { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--gray-bg),   var(--bg) 60%); }
-    .s-revoked   { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--red-bg),    var(--bg) 60%); }
-    .s-blocked   { background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--indigo-bg), var(--bg) 60%); }
+    .s-active {
+      background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--green-bg), var(--bg) 60%);
+    }
+
+    .s-suspended {
+      background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--amber-bg), var(--bg) 60%);
+    }
+
+    .s-expired {
+      background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--gray-bg), var(--bg) 60%);
+    }
+
+    .s-revoked {
+      background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--red-bg), var(--bg) 60%);
+    }
+
+    .s-blocked {
+      background: radial-gradient(ellipse 75% 110% at 92% 50%, var(--indigo-bg), var(--bg) 60%);
+    }
 
     /* per-status browser glow */
-    .s-active    .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(34,197,94,0.12),   0 0 0 1px var(--border); }
-    .s-suspended .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(245,158,11,0.12),  0 0 0 1px var(--border); }
-    .s-expired   .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(113,113,122,0.1),  0 0 0 1px var(--border); }
-    .s-revoked   .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(239,68,68,0.12),   0 0 0 1px var(--border); }
-    .s-blocked   .browser { box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 60px rgba(129,140,248,0.12), 0 0 0 1px var(--border); }
+    .s-active .browser {
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 60px rgba(34, 197, 94, 0.12), 0 0 0 1px var(--border);
+    }
+
+    .s-suspended .browser {
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 60px rgba(245, 158, 11, 0.12), 0 0 0 1px var(--border);
+    }
+
+    .s-expired .browser {
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 60px rgba(113, 113, 122, 0.1), 0 0 0 1px var(--border);
+    }
+
+    .s-revoked .browser {
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 60px rgba(239, 68, 68, 0.12), 0 0 0 1px var(--border);
+    }
+
+    .s-blocked .browser {
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 60px rgba(129, 140, 248, 0.12), 0 0 0 1px var(--border);
+    }
 
     /* ─── Status rule ────────────────────────────────────── */
 
@@ -88,11 +133,26 @@
       margin-bottom: 16px;
       flex-shrink: 0;
     }
-    .s-active    .status-rule { background: var(--green); }
-    .s-suspended .status-rule { background: var(--amber); }
-    .s-expired   .status-rule { background: var(--gray); }
-    .s-revoked   .status-rule { background: var(--red); }
-    .s-blocked   .status-rule { background: var(--indigo); }
+
+    .s-active .status-rule {
+      background: var(--green);
+    }
+
+    .s-suspended .status-rule {
+      background: var(--amber);
+    }
+
+    .s-expired .status-rule {
+      background: var(--gray);
+    }
+
+    .s-revoked .status-rule {
+      background: var(--red);
+    }
+
+    .s-blocked .status-rule {
+      background: var(--indigo);
+    }
 
     /* ─── Status tags ────────────────────────────────────── */
 
@@ -102,6 +162,7 @@
       flex-wrap: wrap;
       margin-top: 22px;
     }
+
     .status-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
@@ -111,14 +172,42 @@
       border-radius: 6px;
       border: 1px solid;
     }
-    .s-active    .status-tag { color: var(--green);  border-color: rgba(34,197,94,0.25);   background: rgba(34,197,94,0.06); }
-    .s-suspended .status-tag { color: var(--amber);  border-color: rgba(245,158,11,0.25);  background: rgba(245,158,11,0.06); }
-    .s-expired   .status-tag { color: var(--gray);   border-color: rgba(113,113,122,0.25); background: rgba(113,113,122,0.06); }
-    .s-revoked   .status-tag { color: var(--red);    border-color: rgba(239,68,68,0.25);   background: rgba(239,68,68,0.06); }
-    .s-blocked   .status-tag { color: var(--indigo); border-color: rgba(129,140,248,0.25); background: rgba(129,140,248,0.06); }
+
+    .s-active .status-tag {
+      color: var(--green);
+      border-color: rgba(34, 197, 94, 0.25);
+      background: rgba(34, 197, 94, 0.06);
+    }
+
+    .s-suspended .status-tag {
+      color: var(--amber);
+      border-color: rgba(245, 158, 11, 0.25);
+      background: rgba(245, 158, 11, 0.06);
+    }
+
+    .s-expired .status-tag {
+      color: var(--gray);
+      border-color: rgba(113, 113, 122, 0.25);
+      background: rgba(113, 113, 122, 0.06);
+    }
+
+    .s-revoked .status-tag {
+      color: var(--red);
+      border-color: rgba(239, 68, 68, 0.25);
+      background: rgba(239, 68, 68, 0.06);
+    }
+
+    .s-blocked .status-tag {
+      color: var(--indigo);
+      border-color: rgba(129, 140, 248, 0.25);
+      background: rgba(129, 140, 248, 0.06);
+    }
 
     /* tall skeleton for browser hero block */
-    .sk-tall { height: 56px !important; border-radius: 8px !important; }
+    .sk-tall {
+      height: 56px !important;
+      border-radius: 8px !important;
+    }
 
     /* ─── Hero ───────────────────────────────────────────── */
 
@@ -185,8 +274,18 @@
     }
 
     @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; transform: scaleY(1); }
-      50%       { opacity: 1;   transform: scaleY(1.2); transform-origin: top; }
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scaleY(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scaleY(1.2);
+        transform-origin: top;
+      }
     }
 
     /* ─── Status sections ────────────────────────────────── */
@@ -203,7 +302,12 @@
 
     /* Left: text */
 
-    .section-left { display: flex; flex-direction: column; gap: 0; min-width: 0; }
+    .section-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-width: 0;
+    }
 
     .status-index {
       font-family: 'JetBrains Mono', monospace;
@@ -222,11 +326,25 @@
       margin-bottom: 24px;
     }
 
-    .s-active    .status-title { color: var(--green);  }
-    .s-suspended .status-title { color: var(--amber);  }
-    .s-expired   .status-title { color: var(--gray);   }
-    .s-revoked   .status-title { color: var(--red);    }
-    .s-blocked   .status-title { color: var(--indigo); }
+    .s-active .status-title {
+      color: var(--green);
+    }
+
+    .s-suspended .status-title {
+      color: var(--amber);
+    }
+
+    .s-expired .status-title {
+      color: var(--gray);
+    }
+
+    .s-revoked .status-title {
+      color: var(--red);
+    }
+
+    .s-blocked .status-title {
+      color: var(--indigo);
+    }
 
     .status-desc {
       font-size: 15px;
@@ -248,7 +366,10 @@
 
     /* Right: widget preview */
 
-    .section-right { display: flex; justify-content: center; }
+    .section-right {
+      display: flex;
+      justify-content: center;
+    }
 
     .browser {
       background: var(--surface);
@@ -256,7 +377,7 @@
       border-radius: 16px;
       overflow: hidden;
       width: 380px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
     }
 
     .browser-bar {
@@ -267,10 +388,23 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .bdot { width: 9px; height: 9px; border-radius: 50%; }
-    .bdot-r { background: #3a2020; }
-    .bdot-y { background: #2e2a10; }
-    .bdot-g { background: #0f2e1a; }
+    .bdot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .bdot-r {
+      background: #3a2020;
+    }
+
+    .bdot-y {
+      background: #2e2a10;
+    }
+
+    .bdot-g {
+      background: #0f2e1a;
+    }
 
     .browser-url {
       flex: 1;
@@ -290,11 +424,27 @@
       gap: 8px;
     }
 
-    .sk { height: 9px; border-radius: 4px; background: var(--card); }
-    .sk-80 { width: 80%; }
-    .sk-60 { width: 60%; }
-    .sk-90 { width: 90%; }
-    .sk-45 { width: 45%; }
+    .sk {
+      height: 9px;
+      border-radius: 4px;
+      background: var(--card);
+    }
+
+    .sk-80 {
+      width: 80%;
+    }
+
+    .sk-60 {
+      width: 60%;
+    }
+
+    .sk-90 {
+      width: 90%;
+    }
+
+    .sk-45 {
+      width: 45%;
+    }
 
     .widget-wrap {
       margin: 12px 0 10px;
@@ -326,23 +476,24 @@
       align-items: center;
       gap: 0;
       padding: 3px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 13px;
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
     }
 
     /* sliding indicator */
     .ctrl-indicator {
       position: absolute;
-      top: 3px; left: 3px;
+      top: 3px;
+      left: 3px;
       height: calc(100% - 6px);
-      background: rgba(255,255,255,0.13);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 9px;
-      transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), width 0.22s cubic-bezier(0.4,0,0.2,1);
+      transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
       pointer-events: none;
       z-index: 0;
     }
@@ -357,15 +508,20 @@
       border-radius: 10px;
       border: none;
       cursor: pointer;
-      color: rgba(224,224,236,0.35);
+      color: rgba(224, 224, 236, 0.35);
       background: transparent;
       transition: color 0.18s;
       letter-spacing: 0.05em;
       white-space: nowrap;
     }
 
-    .ctrl-btn:hover { color: rgba(224,224,236,0.75); }
-    .ctrl-btn.on    { color: var(--text); }
+    .ctrl-btn:hover {
+      color: rgba(224, 224, 236, 0.75);
+    }
+
+    .ctrl-btn.on {
+      color: var(--text);
+    }
 
     /* ─── Theme toggle switch ────────────────────────────── */
 
@@ -378,11 +534,11 @@
       height: 42px;
       border-radius: 21px;
       padding: 5px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -393,13 +549,13 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.11);
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.11);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      transition: transform 0.34s cubic-bezier(0.34,1.5,0.64,1);
+      transition: transform 0.34s cubic-bezier(0.34, 1.5, 0.64, 1);
       will-change: transform;
       flex-shrink: 0;
     }
@@ -419,14 +575,17 @@
       opacity: 1;
       transform: scale(1) rotate(0deg);
     }
+
     .ts-icon-dark {
       opacity: 0;
       transform: scale(0.5) rotate(-45deg);
     }
+
     .theme-switch.is-dark .ts-icon-light {
       opacity: 0;
       transform: scale(0.5) rotate(45deg);
     }
+
     .theme-switch.is-dark .ts-icon-dark {
       opacity: 1;
       transform: scale(1) rotate(0deg);
@@ -444,16 +603,19 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 9px;
       letter-spacing: 0.06em;
-      color: rgba(224,224,236,0.22);
+      color: rgba(224, 224, 236, 0.22);
       transition: opacity 0.2s;
     }
+
     .theme-switch.is-dark .ts-track {
       padding: 0 44px 0 10px;
     }
 
     /* ─── Info section ───────────────────────────────────── */
 
-    .s-info { background: var(--bg); }
+    .s-info {
+      background: var(--bg);
+    }
 
     .info-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -487,7 +649,8 @@
     }
 
     .feature-icon {
-      width: 30px; height: 30px;
+      width: 30px;
+      height: 30px;
       flex-shrink: 0;
       background: var(--surface);
       border: 1px solid var(--border);
@@ -543,10 +706,17 @@
       word-break: break-all;
     }
 
-    .url-row + .url-row { border-top: 1px solid var(--border); }
+    .url-row+.url-row {
+      border-top: 1px solid var(--border);
+    }
 
-    .url-seg-cert { color: var(--amber); }
-    .url-seg-dev  { color: var(--green); }
+    .url-seg-cert {
+      color: var(--amber);
+    }
+
+    .url-seg-dev {
+      color: var(--green);
+    }
 
     .url-divider {
       display: flex;
@@ -583,7 +753,10 @@
       background: var(--card);
     }
 
-    .url-result strong { color: var(--sub); font-weight: 400; }
+    .url-result strong {
+      color: var(--sub);
+      font-weight: 400;
+    }
 
     /* ─── Fixed: byline ──────────────────────────────────── */
 
@@ -606,7 +779,10 @@
       transition: color 0.15s, border-color 0.15s;
     }
 
-    .byline a:hover { color: var(--text); border-color: var(--sub); }
+    .byline a:hover {
+      color: var(--text);
+      border-color: var(--sub);
+    }
 
     /* ─── Section dots ───────────────────────────────────── */
 
@@ -639,40 +815,100 @@
 
     body.widget-light .browser {
       background: #ffffff;
-      border-color: rgba(0,0,0,0.09);
-      box-shadow: 0 24px 64px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.07);
+      border-color: rgba(0, 0, 0, 0.09);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.07);
     }
+
     body.widget-light .browser-bar {
       background: #f7f7f7;
-      border-bottom-color: rgba(0,0,0,0.08);
+      border-bottom-color: rgba(0, 0, 0, 0.08);
     }
-    body.widget-light .bdot-r { background: #ff5f57; }
-    body.widget-light .bdot-y { background: #ffbd2e; }
-    body.widget-light .bdot-g { background: #28c840; }
-    body.widget-light .browser-url { background: #ebebeb; color: #999; }
-    body.widget-light .sk { background: #ededed; }
-    body.widget-light .widget-label { color: #c0c0c0; }
+
+    body.widget-light .bdot-r {
+      background: #ff5f57;
+    }
+
+    body.widget-light .bdot-y {
+      background: #ffbd2e;
+    }
+
+    body.widget-light .bdot-g {
+      background: #28c840;
+    }
+
+    body.widget-light .browser-url {
+      background: #ebebeb;
+      color: #999;
+    }
+
+    body.widget-light .sk {
+      background: #ededed;
+    }
+
+    body.widget-light .widget-label {
+      color: #c0c0c0;
+    }
 
     /* ─── Responsive ─────────────────────────────────────── */
 
     /* Medium desktop — shrink browser */
     @media (max-width: 1024px) {
-      .section-inner { padding: 0 44px; gap: 48px; }
-      .browser { width: 320px; }
-      .browser-body { padding: 18px; }
+      .section-inner {
+        padding: 0 44px;
+        gap: 48px;
+      }
+
+      .browser {
+        width: 320px;
+      }
+
+      .browser-body {
+        padding: 18px;
+      }
+
       /* usable: 320-36=284, scale: 284/332 ≈ 0.856 */
-      .widget-wrap { width: 284px; height: 84px; overflow: hidden; }
-      .widget-wrap iframe { transform: scale(0.856); transform-origin: top left; width: 332px !important; height: 98px !important; }
+      .widget-wrap {
+        width: 284px;
+        height: 84px;
+        overflow: hidden;
+      }
+
+      .widget-wrap iframe {
+        transform: scale(0.856);
+        transform-origin: top left;
+        width: 332px !important;
+        height: 98px !important;
+      }
     }
 
     /* Tablet landscape — shrink more */
     @media (max-width: 860px) {
-      .section-inner { gap: 36px; padding: 0 36px; }
-      .browser { width: 280px; }
-      .browser-body { padding: 14px; }
+      .section-inner {
+        gap: 36px;
+        padding: 0 36px;
+      }
+
+      .browser {
+        width: 280px;
+      }
+
+      .browser-body {
+        padding: 14px;
+      }
+
       /* usable: 280-28=252, scale: 252/332 ≈ 0.759 */
-      .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
-      .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
+      .widget-wrap {
+        width: 252px;
+        height: 75px;
+        overflow: hidden;
+      }
+
+      .widget-wrap iframe {
+        transform: scale(0.759);
+        transform-origin: top left;
+        width: 332px !important;
+        height: 98px !important;
+      }
     }
 
     /* Tablet portrait + mobile — stack, always show browser */
@@ -684,54 +920,152 @@
         text-align: center;
         justify-items: center;
       }
-      .section-left { align-items: center; }
-      .section-right { display: flex; justify-content: center; width: 100%; }
+
+      .section-left {
+        align-items: center;
+      }
+
+      .section-right {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
 
       /* Browser fits most phones (360px+): 360-48=312, use 280px */
-      .browser { width: 280px; }
-      .browser-body { padding: 14px; }
-      .widget-wrap { width: 252px; height: 75px; overflow: hidden; }
-      .widget-wrap iframe { transform: scale(0.759); transform-origin: top left; width: 332px !important; height: 98px !important; }
+      .browser {
+        width: 280px;
+      }
 
-      html { scroll-snap-type: y mandatory; }
-      html.in-info { scroll-snap-type: y proximity; }
-      .s-info { scroll-snap-align: start; padding-bottom: 100px; }
+      .browser-body {
+        padding: 14px;
+      }
+
+      .widget-wrap {
+        width: 252px;
+        height: 75px;
+        overflow: hidden;
+      }
+
+      .widget-wrap iframe {
+        transform: scale(0.759);
+        transform-origin: top left;
+        width: 332px !important;
+        height: 98px !important;
+      }
+
+      html {
+        scroll-snap-type: y mandatory;
+      }
+
+      html.in-info {
+        scroll-snap-type: y proximity;
+      }
+
+      .s-info {
+        scroll-snap-align: start;
+        padding-bottom: 100px;
+      }
 
       /* Info section: left-aligned, full width */
-      .s-info .section-inner { text-align: left; justify-items: stretch; }
-      .s-info .section-left  { align-items: flex-start; width: 100%; }
-      .s-info .section-right { justify-content: flex-start; }
-      .s-info .url-card      { width: 100%; max-width: 100%; }
+      .s-info .section-inner {
+        text-align: left;
+        justify-items: stretch;
+      }
+
+      .s-info .section-left {
+        align-items: flex-start;
+        width: 100%;
+      }
+
+      .s-info .section-right {
+        justify-content: flex-start;
+      }
+
+      .s-info .url-card {
+        width: 100%;
+        max-width: 100%;
+      }
 
       /* Dots go horizontal at bottom */
       .dots {
-        right: unset; top: unset;
-        bottom: 20px; left: 50%;
+        right: unset;
+        top: unset;
+        bottom: 20px;
+        left: 50%;
         transform: translateX(-50%);
-        flex-direction: row; gap: 10px;
+        flex-direction: row;
+        gap: 10px;
       }
     }
 
     /* Small phone tweaks */
     @media (max-width: 430px) {
-      .section-inner { padding: 24px 20px; gap: 18px; }
-      .hero h1 { font-size: 52px; }
-      .hero-sub { font-size: 14px; margin-bottom: 36px; }
-      .ctrl-lang { top: 12px; left: 12px; padding: 3px; }
-      .ctrl-btn { padding: 8px 12px; font-size: 11px; }
-      .theme-switch { top: 12px; right: 12px; width: 68px; height: 38px; padding: 4px; }
-      .ts-knob { width: 30px; height: 30px; }
-      .theme-switch.is-dark .ts-knob { transform: translateX(30px); }
-      .ts-track { padding: 0 8px 0 38px; }
-      .theme-switch.is-dark .ts-track { padding: 0 38px 0 8px; }
-      .byline { bottom: 16px; left: 12px; font-size: 10px; }
-      .dots { bottom: 16px; }
+      .section-inner {
+        padding: 24px 20px;
+        gap: 18px;
+      }
+
+      .hero h1 {
+        font-size: 52px;
+      }
+
+      .hero-sub {
+        font-size: 14px;
+        margin-bottom: 36px;
+      }
+
+      .ctrl-lang {
+        top: 12px;
+        left: 12px;
+        padding: 3px;
+      }
+
+      .ctrl-btn {
+        padding: 8px 12px;
+        font-size: 11px;
+      }
+
+      .theme-switch {
+        top: 12px;
+        right: 12px;
+        width: 68px;
+        height: 38px;
+        padding: 4px;
+      }
+
+      .ts-knob {
+        width: 30px;
+        height: 30px;
+      }
+
+      .theme-switch.is-dark .ts-knob {
+        transform: translateX(30px);
+      }
+
+      .ts-track {
+        padding: 0 8px 0 38px;
+      }
+
+      .theme-switch.is-dark .ts-track {
+        padding: 0 38px 0 8px;
+      }
+
+      .byline {
+        bottom: 16px;
+        left: 12px;
+        font-size: 10px;
+      }
+
+      .dots {
+        bottom: 16px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- ─── Hero ──────────────────────────────────────────── -->
+  <!-- ─── Hero ──────────────────────────────────────────── -->
   <section class="hero" id="s0">
     <p class="hero-eyebrow">BNPL TrustMark</p>
     <h1>Widget<br><em>showcase</em></h1>
@@ -749,7 +1083,8 @@
         <div class="status-index">01 / 05</div>
         <div class="status-rule"></div>
         <h2 class="status-title">Active</h2>
-        <p class="status-desc">Certificate is valid and verified. The company is an active member of the BNPL registry.</p>
+        <p class="status-desc">Certificate is valid and verified. The company is an active member of the BNPL registry.
+        </p>
         <div class="status-tags">
           <span class="status-tag">verified</span>
           <span class="status-tag">cors · ok</span>
@@ -771,10 +1106,9 @@
             <div class="widget-label" id="lbl-1">Light theme</div>
             <div class="widget-wrap">
               <iframe data-cert="FAU-2026-Z5X4M7"
-                src="https://bnpl.chebarash.uz/widget/FAU-2026-Z5X4M7?lang=uz&theme=light"
-                width="332" height="98" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                allowtransparency="true" title="BNPL TrustMark"></iframe>
+                src="https://bnpl.fintech-association.uz/widget/FAU-2026-Z5X4M7?lang=uz&theme=light" width="332"
+                height="98" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowtransparency="true"
+                title="BNPL TrustMark"></iframe>
             </div>
             <div class="sk sk-45"></div>
           </div>
@@ -790,7 +1124,8 @@
         <div class="status-index">02 / 05</div>
         <div class="status-rule"></div>
         <h2 class="status-title">Suspended</h2>
-        <p class="status-desc">Certificate is temporarily suspended. Operations are paused until reinstated by the registry.</p>
+        <p class="status-desc">Certificate is temporarily suspended. Operations are paused until reinstated by the
+          registry.</p>
         <div class="status-tags">
           <span class="status-tag">paused</span>
           <span class="status-tag">reversible</span>
@@ -812,10 +1147,9 @@
             <div class="widget-label" id="lbl-2">Light theme</div>
             <div class="widget-wrap">
               <iframe data-cert="FAU-2026-S9S8E9"
-                src="https://bnpl.chebarash.uz/widget/FAU-2026-S9S8E9?lang=uz&theme=light"
-                width="332" height="98" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                allowtransparency="true" title="BNPL TrustMark"></iframe>
+                src="https://bnpl.fintech-association.uz/widget/FAU-2026-S9S8E9?lang=uz&theme=light" width="332"
+                height="98" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowtransparency="true"
+                title="BNPL TrustMark"></iframe>
             </div>
             <div class="sk sk-45"></div>
           </div>
@@ -831,7 +1165,8 @@
         <div class="status-index">03 / 05</div>
         <div class="status-rule"></div>
         <h2 class="status-title">Expired</h2>
-        <p class="status-desc">Certificate has passed its validity date. Renewal is required to restore active status.</p>
+        <p class="status-desc">Certificate has passed its validity date. Renewal is required to restore active status.
+        </p>
         <div class="status-tags">
           <span class="status-tag">past due</span>
           <span class="status-tag">renewal required</span>
@@ -852,10 +1187,9 @@
             <div class="widget-label" id="lbl-3">Light theme</div>
             <div class="widget-wrap">
               <iframe data-cert="FAU-2026-F9W6F4"
-                src="https://bnpl.chebarash.uz/widget/FAU-2026-F9W6F4?lang=uz&theme=light"
-                width="332" height="98" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                allowtransparency="true" title="BNPL TrustMark"></iframe>
+                src="https://bnpl.fintech-association.uz/widget/FAU-2026-F9W6F4?lang=uz&theme=light" width="332"
+                height="98" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowtransparency="true"
+                title="BNPL TrustMark"></iframe>
             </div>
             <div class="sk sk-45"></div>
           </div>
@@ -871,7 +1205,8 @@
         <div class="status-index">04 / 05</div>
         <div class="status-rule"></div>
         <h2 class="status-title">Revoked</h2>
-        <p class="status-desc">Certificate has been permanently revoked. The company is no longer part of the registry.</p>
+        <p class="status-desc">Certificate has been permanently revoked. The company is no longer part of the registry.
+        </p>
         <div class="status-tags">
           <span class="status-tag">permanent</span>
           <span class="status-tag">removed</span>
@@ -893,10 +1228,9 @@
             <div class="widget-label" id="lbl-4">Light theme</div>
             <div class="widget-wrap">
               <iframe data-cert="FAU-2026-Y6B2J2"
-                src="https://bnpl.chebarash.uz/widget/FAU-2026-Y6B2J2?lang=uz&theme=light"
-                width="332" height="98" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                allowtransparency="true" title="BNPL TrustMark"></iframe>
+                src="https://bnpl.fintech-association.uz/widget/FAU-2026-Y6B2J2?lang=uz&theme=light" width="332"
+                height="98" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowtransparency="true"
+                title="BNPL TrustMark"></iframe>
             </div>
             <div class="sk sk-45"></div>
           </div>
@@ -912,7 +1246,9 @@
         <div class="status-index">05 / 05</div>
         <div class="status-rule"></div>
         <h2 class="status-title">Blocked</h2>
-        <p class="status-desc">Widget is embedded from <code>test.chebarash.uz</code> but the certificate allows only <code>chebarash.uz</code>. The request is rejected by CORS policy.</p>
+        <p class="status-desc">Widget is embedded from <code>test.chebarash.uz</code> but the certificate allows only
+          <code>chebarash.uz</code>. The request is rejected by CORS policy.
+        </p>
         <div class="status-tags">
           <span class="status-tag">cors error</span>
           <span class="status-tag">domain mismatch</span>
@@ -933,10 +1269,9 @@
             <div class="widget-label" id="lbl-5">Light theme</div>
             <div class="widget-wrap">
               <iframe data-cert="FAU-2026-M8A9J6"
-                src="https://bnpl.chebarash.uz/widget/FAU-2026-M8A9J6?lang=uz&theme=light"
-                width="332" height="98" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                allowtransparency="true" title="BNPL TrustMark"></iframe>
+                src="https://bnpl.fintech-association.uz/widget/FAU-2026-M8A9J6?lang=uz&theme=light" width="332"
+                height="98" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowtransparency="true"
+                title="BNPL TrustMark"></iframe>
             </div>
             <div class="sk sk-45"></div>
           </div>
@@ -956,21 +1291,24 @@
             <div class="feature-icon">↗</div>
             <div class="feature-body">
               <strong>Tap to open certificate</strong>
-              The widget is interactive — clicking it navigates the user directly to the company's full certificate page.
+              The widget is interactive — clicking it navigates the user directly to the company's full certificate
+              page.
             </div>
           </div>
           <div class="feature">
             <div class="feature-icon">⌘</div>
             <div class="feature-body">
               <strong>Language follows the widget</strong>
-              If the widget is displayed in Uzbek, the certificate page opens in Uzbek. The language setting carries through seamlessly.
+              If the widget is displayed in Uzbek, the certificate page opens in Uzbek. The language setting carries
+              through seamlessly.
             </div>
           </div>
           <div class="feature">
             <div class="feature-icon">{}</div>
             <div class="feature-body">
               <strong>Integration in one URL swap</strong>
-              Replace <code>/cert/</code> with <code>/dev/</code> in any certificate URL to get the ready-to-paste <code>&lt;iframe&gt;</code> snippet and full parameter reference.
+              Replace <code>/cert/</code> with <code>/dev/</code> in any certificate URL to get the ready-to-paste
+              <code>&lt;iframe&gt;</code> snippet and full parameter reference.
             </div>
           </div>
         </div>
@@ -996,143 +1334,151 @@
     </div>
   </section>
 
-<!-- ─── Controls ─────────────────────────────────────── -->
+  <!-- ─── Controls ─────────────────────────────────────── -->
 
-<div class="ctrl-lang" id="ctrl-lang">
-  <div class="ctrl-indicator"></div>
-  <button class="ctrl-btn on" data-lang="uz">uz</button>
-  <button class="ctrl-btn"   data-lang="ru">ru</button>
-  <button class="ctrl-btn"   data-lang="en">en</button>
-</div>
-
-<button class="theme-switch" id="theme-switch" aria-label="Toggle widget theme">
-  <div class="ts-knob">
-    <!-- sun -->
-    <svg class="ts-icon ts-icon-light" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="8" cy="8" r="3" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"/>
-      <line x1="8" y1="1" x2="8" y2="2.5" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
-      <line x1="8" y1="13.5" x2="8" y2="15" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
-      <line x1="1" y1="8" x2="2.5" y2="8" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
-      <line x1="13.5" y1="8" x2="15" y2="8" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
-      <line x1="2.93" y1="2.93" x2="4" y2="4" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
-      <line x1="12" y1="12" x2="13.07" y2="13.07" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
-      <line x1="13.07" y1="2.93" x2="12" y2="4" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
-      <line x1="4" y1="12" x2="2.93" y2="13.07" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round"/>
-    </svg>
-    <!-- moon -->
-    <svg class="ts-icon ts-icon-dark" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+  <div class="ctrl-lang" id="ctrl-lang">
+    <div class="ctrl-indicator"></div>
+    <button class="ctrl-btn on" data-lang="uz">uz</button>
+    <button class="ctrl-btn" data-lang="ru">ru</button>
+    <button class="ctrl-btn" data-lang="en">en</button>
   </div>
-  <div class="ts-track">dark</div>
-</button>
 
-<!-- ─── Byline ────────────────────────────────────────── -->
+  <button class="theme-switch" id="theme-switch" aria-label="Toggle widget theme">
+    <div class="ts-knob">
+      <!-- sun -->
+      <svg class="ts-icon ts-icon-light" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8" cy="8" r="3" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" />
+        <line x1="8" y1="1" x2="8" y2="2.5" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round" />
+        <line x1="8" y1="13.5" x2="8" y2="15" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"
+          stroke-linecap="round" />
+        <line x1="1" y1="8" x2="2.5" y2="8" stroke="rgba(224,224,236,0.9)" stroke-width="1.4" stroke-linecap="round" />
+        <line x1="13.5" y1="8" x2="15" y2="8" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"
+          stroke-linecap="round" />
+        <line x1="2.93" y1="2.93" x2="4" y2="4" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"
+          stroke-linecap="round" />
+        <line x1="12" y1="12" x2="13.07" y2="13.07" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"
+          stroke-linecap="round" />
+        <line x1="13.07" y1="2.93" x2="12" y2="4" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"
+          stroke-linecap="round" />
+        <line x1="4" y1="12" x2="2.93" y2="13.07" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"
+          stroke-linecap="round" />
+      </svg>
+      <!-- moon -->
+      <svg class="ts-icon ts-icon-dark" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z" stroke="rgba(224,224,236,0.9)" stroke-width="1.4"
+          stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+    <div class="ts-track">dark</div>
+  </button>
 
-<div class="byline">by <a href="https://chebarash.uz" target="_blank" rel="noopener">chebarash</a></div>
+  <!-- ─── Byline ────────────────────────────────────────── -->
 
-<!-- ─── Section dots ──────────────────────────────────── -->
+  <div class="byline">by <a href="https://chebarash.uz" target="_blank" rel="noopener">chebarash</a></div>
 
-<div class="dots" id="dots">
-  <div class="dot active" data-target="s0"></div>
-  <div class="dot" data-target="s1"></div>
-  <div class="dot" data-target="s2"></div>
-  <div class="dot" data-target="s3"></div>
-  <div class="dot" data-target="s4"></div>
-  <div class="dot" data-target="s5"></div>
-  <div class="dot" data-target="s6"></div>
-</div>
+  <!-- ─── Section dots ──────────────────────────────────── -->
 
-<script>
-  let lang  = 'uz';
-  let theme = 'light';
+  <div class="dots" id="dots">
+    <div class="dot active" data-target="s0"></div>
+    <div class="dot" data-target="s1"></div>
+    <div class="dot" data-target="s2"></div>
+    <div class="dot" data-target="s3"></div>
+    <div class="dot" data-target="s4"></div>
+    <div class="dot" data-target="s5"></div>
+    <div class="dot" data-target="s6"></div>
+  </div>
 
-  const themeLabels = {
-    light: 'Light theme',
-    dark:  'Dark theme',
-  };
+  <script>
+    let lang = 'uz';
+    let theme = 'light';
 
-  function updateWidgets() {
-    document.querySelectorAll('iframe[data-cert]').forEach(iframe => {
-      const id = iframe.dataset.cert;
-      iframe.src = `https://bnpl.chebarash.uz/widget/${id}?lang=${lang}&theme=${theme}`;
-    });
-    for (let i = 1; i <= 5; i++) {
-      const lbl = document.getElementById(`lbl-${i}`);
-      if (lbl) lbl.textContent = themeLabels[theme];
+    const themeLabels = {
+      light: 'Light theme',
+      dark: 'Dark theme',
+    };
+
+    function updateWidgets() {
+      document.querySelectorAll('iframe[data-cert]').forEach(iframe => {
+        const id = iframe.dataset.cert;
+        iframe.src = `https://bnpl.fintech-association.uz/widget/${id}?lang=${lang}&theme=${theme}`;
+      });
+      for (let i = 1; i <= 5; i++) {
+        const lbl = document.getElementById(`lbl-${i}`);
+        if (lbl) lbl.textContent = themeLabels[theme];
+      }
+      document.body.classList.toggle('widget-light', theme === 'light');
     }
-    document.body.classList.toggle('widget-light', theme === 'light');
-  }
 
-  // Sliding indicator
-  function moveIndicator(containerId) {
-    const wrap = document.getElementById(containerId);
-    if (!wrap) return;
-    const active = wrap.querySelector('.ctrl-btn.on');
-    const ind    = wrap.querySelector('.ctrl-indicator');
-    if (!active || !ind) return;
-    ind.style.width     = active.offsetWidth + 'px';
-    ind.style.transform = `translateX(${active.offsetLeft - 3}px)`;
-  }
+    // Sliding indicator
+    function moveIndicator(containerId) {
+      const wrap = document.getElementById(containerId);
+      if (!wrap) return;
+      const active = wrap.querySelector('.ctrl-btn.on');
+      const ind = wrap.querySelector('.ctrl-indicator');
+      if (!active || !ind) return;
+      ind.style.width = active.offsetWidth + 'px';
+      ind.style.transform = `translateX(${active.offsetLeft - 3}px)`;
+    }
 
-  // Set initial state
-  document.body.classList.add('widget-light');
-  requestAnimationFrame(() => {
-    moveIndicator('ctrl-lang');
-  });
-
-  // Lang buttons
-  document.querySelectorAll('.ctrl-btn[data-lang]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      lang = btn.dataset.lang;
-      document.querySelectorAll('.ctrl-btn[data-lang]').forEach(b => b.classList.remove('on'));
-      btn.classList.add('on');
+    // Set initial state
+    document.body.classList.add('widget-light');
+    requestAnimationFrame(() => {
       moveIndicator('ctrl-lang');
+    });
+
+    // Lang buttons
+    document.querySelectorAll('.ctrl-btn[data-lang]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        lang = btn.dataset.lang;
+        document.querySelectorAll('.ctrl-btn[data-lang]').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        moveIndicator('ctrl-lang');
+        updateWidgets();
+      });
+    });
+
+    // Theme toggle switch
+    const themeSwitch = document.getElementById('theme-switch');
+    const tsTrack = themeSwitch.querySelector('.ts-track');
+    themeSwitch.addEventListener('click', () => {
+      theme = theme === 'light' ? 'dark' : 'light';
+      themeSwitch.classList.toggle('is-dark', theme === 'dark');
+      tsTrack.textContent = theme === 'dark' ? 'light' : 'dark';
       updateWidgets();
     });
-  });
 
-  // Theme toggle switch
-  const themeSwitch = document.getElementById('theme-switch');
-  const tsTrack = themeSwitch.querySelector('.ts-track');
-  themeSwitch.addEventListener('click', () => {
-    theme = theme === 'light' ? 'dark' : 'light';
-    themeSwitch.classList.toggle('is-dark', theme === 'dark');
-    tsTrack.textContent = theme === 'dark' ? 'light' : 'dark';
-    updateWidgets();
-  });
+    // Section dots — scroll tracking
+    const sections = ['s0', 's1', 's2', 's3', 's4', 's5', 's6'].map(id => document.getElementById(id));
+    const dotEls = document.querySelectorAll('.dots .dot');
+    const s6el = document.getElementById('s6');
 
-  // Section dots — scroll tracking
-  const sections = ['s0','s1','s2','s3','s4','s5','s6'].map(id => document.getElementById(id));
-  const dotEls   = document.querySelectorAll('.dots .dot');
-  const s6el     = document.getElementById('s6');
+    // Switch snap mode: mandatory for s0-s5, proximity once inside s6 on mobile
+    function updateSnapMode() {
+      if (window.innerWidth > 768 || !s6el) return;
+      const inInfo = window.scrollY >= s6el.offsetTop - 20;
+      document.documentElement.classList.toggle('in-info', inInfo);
+    }
 
-  // Switch snap mode: mandatory for s0-s5, proximity once inside s6 on mobile
-  function updateSnapMode() {
-    if (window.innerWidth > 768 || !s6el) return;
-    const inInfo = window.scrollY >= s6el.offsetTop - 20;
-    document.documentElement.classList.toggle('in-info', inInfo);
-  }
+    function onScroll() {
+      const mid = window.scrollY + window.innerHeight / 2;
+      let active = 0;
+      sections.forEach((s, i) => {
+        if (s.offsetTop <= mid) active = i;
+      });
+      dotEls.forEach((d, i) => d.classList.toggle('active', i === active));
+      updateSnapMode();
+    }
 
-  function onScroll() {
-    const mid = window.scrollY + window.innerHeight / 2;
-    let active = 0;
-    sections.forEach((s, i) => {
-      if (s.offsetTop <= mid) active = i;
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateSnapMode);
+
+    dotEls.forEach(dot => {
+      dot.addEventListener('click', () => {
+        document.getElementById(dot.dataset.target)?.scrollIntoView({ behavior: 'smooth' });
+      });
     });
-    dotEls.forEach((d, i) => d.classList.toggle('active', i === active));
-    updateSnapMode();
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', updateSnapMode);
-
-  dotEls.forEach(dot => {
-    dot.addEventListener('click', () => {
-      document.getElementById(dot.dataset.target)?.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
-</script>
+  </script>
 
 </body>
+
 </html>
